@@ -5,7 +5,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#define LMOTOR_OUTPUT_PIN 27
-#define RMOTOR_OUTPUT_PIN 22
+#define LMOTOR_OUTPUT_PIN 18
+#define RMOTOR_OUTPUT_PIN 23
 
 #endif // CONSTANTS_H
