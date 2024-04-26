@@ -804,16 +804,18 @@
 1709331386 /home/faniel/Documents/ELEX4699-CarProject/CControlPi.h
 	<string>
 
-1713951246 source:/home/faniel/Documents/ELEX4699-CarProject/CCar.cpp
+1714113271 source:/home/faniel/Documents/ELEX4699-CarProject/CCar.cpp
 	"server.h"
 	"CCar.h"
 
-1713948594 /home/faniel/Documents/ELEX4699-CarProject/CCar.h
+1714113076 /home/faniel/Documents/ELEX4699-CarProject/CCar.h
 	<algorithm>
 	<chrono>
 	<thread>
 	<opencv2/opencv.hpp>
+	<sstream>
 	"server.h"
+	"Client.h"
 	"Constants.h"
 	"CMotor.h"
 
@@ -829,10 +831,10 @@
 	<opencv2/highgui/highgui.hpp>
 	<opencv2/core/core.hpp>
 
-1713939198 /home/faniel/Documents/ELEX4699-CarProject/Constants.h
+1714078590 /home/faniel/Documents/ELEX4699-CarProject/Constants.h
 	<cmath>
 
-1713951388 /home/faniel/Documents/ELEX4699-CarProject/CMotor.h
+1714082877 /home/faniel/Documents/ELEX4699-CarProject/CMotor.h
 	"pigpio.h"
 	<thread>
 	<chrono>
@@ -843,7 +845,7 @@
 	"pigpio.h"
 	"CControlPi.h"
 
-1713948864 source:/home/faniel/Documents/ELEX4699-CarProject/CMotor.cpp
+1714082854 source:/home/faniel/Documents/ELEX4699-CarProject/CMotor.cpp
 	<algorithm>
 	<chrono>
 	<thread>
@@ -873,7 +875,7 @@
 1709331386 /home/faniel/Documents/ELEX4699-CarProject/CSketch.h
 	"CBase4618.h"
 
-1713937820 source:/home/faniel/Documents/ELEX4699-CarProject/main.cpp
+1713991998 source:/home/faniel/Documents/ELEX4699-CarProject/main.cpp
 	"cvui.h"
 	<opencv2/opencv.hpp>
 	<string>
@@ -905,4 +907,36 @@
 	<opencv2/opencv.hpp>
 	<opencv2/opencv.hpp>
 	<X11/Xlib.h>
+
+1713996164 /home/faniel/Documents/ELEX4699-CarProject/Client.h
+	<string>
+	<opencv2/opencv.hpp>
+	<sys/types.h>
+	<stdlib.h>
+	<unistd.h>
+	<sys/socket.h>
+	<sys/ioctl.h>
+	<fcntl.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<netdb.h>
+	<thread>
+
+1713996359 source:/home/faniel/Documents/ELEX4699-CarProject/CCommunication.cpp
+	<algorithm>
+	<chrono>
+	<thread>
+	"Constants.h"
+	"CCommunication.h"
+
+1714000441 /home/faniel/Documents/ELEX4699-CarProject/CCommunication.h
+	"Client.h"
+	"server.h"
+	<thread>
+	<iostream>
+	<chrono>
+
+1713995997 source:/home/faniel/Documents/ELEX4699-CarProject/Client.cpp
+	<iostream>
+	"Client.h"
 

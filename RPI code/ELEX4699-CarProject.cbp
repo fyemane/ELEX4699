@@ -41,10 +41,13 @@
 			<Add option="`pkg-config --cflags opencv4` -std=c++11" />
 			<Add option="-lpigpio -lrt -lpthread" />
 		</Linker>
+		<Unit filename="6733-firefox.jpg" />
 		<Unit filename="CBase4618.cpp" />
 		<Unit filename="CBase4618.h" />
 		<Unit filename="CCar.cpp" />
 		<Unit filename="CCar.h" />
+		<Unit filename="CCommunication.cpp" />
+		<Unit filename="CCommunication.h" />
 		<Unit filename="CControlPi.cpp" />
 		<Unit filename="CControlPi.h" />
 		<Unit filename="CMotor.cpp" />
@@ -53,6 +56,8 @@
 		<Unit filename="CPong.h" />
 		<Unit filename="CSketch.cpp" />
 		<Unit filename="CSketch.h" />
+		<Unit filename="Client.cpp" />
+		<Unit filename="Client.h" />
 		<Unit filename="Constants.h" />
 		<Unit filename="background_space.jpg" />
 		<Unit filename="cvui.h" />
