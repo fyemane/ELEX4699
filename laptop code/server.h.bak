@@ -1,0 +1,30 @@
+///////////////////////////////////////////////////////////////////
+// Prepared for BCIT ELEX4618, April 2022, by Craig Hennessey
+///////////////////////////////////////////////////////////////////
+#pragma once
+
+#include <opencv2/opencv.hpp>
+
+#include <mutex>
+#include <vector>
+
+class Server
+{
+private:
+  bool _exit;
+  cv::Mat _txim;
+  
+  std::mutex _immutex;
+  std::mutex _cmdmutex;
+  std::vector<std::string> _cmd_list;
+  
+public:
+  Server();
+	~Server();
+
+  void start(int port);
+  void set_txim (cv::Mat &im);
+  void get_cmd (std::vector<std::string> &cmds);
+};
+
+

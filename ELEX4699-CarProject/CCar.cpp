@@ -10,6 +10,10 @@ CCar::CCar() {
 
     _thread_exit = false;
 
+    _analogX = 0;
+    _analogY = 0;
+
+
     if (gpioInitialise() < 0) {
         std::cerr << "GPIO initialization failed" << std::endl;
     }
@@ -26,6 +30,50 @@ void CCar::update() {
         for (const auto& str: _commands_list) {
             std::cout << "Received: " << str << std::endl;
         }
+        std::istringstream iss(_commands_list.at(0));
+
+        // parse string
+        iss >> cmd1 >> cmd2 >> cmd3 >> cmd4 >> cmd5 >> cmd6;
+
+//        _analogX = cmd3 / 4096.0 * 2000 + 500;
+//        _analogY = cmd4 / 4096.0 * 2000 + 500;
+        _analogY  = cmd4 / 4096.0;
+
+        if (_analogY > 0.6) {
+            // forward
+            _lmotor.set_speed(2500);
+            _rmotor.set_speed(1417);
+        }
+        else if (_analogY < 0.4) {
+            // backward
+            _lmotor.set_speed(500);
+            _rmotor.set_speed(1565);
+        }
+        // stop
+        else {
+            _lmotor.set_speed(1500);
+            _rmotor.set_speed(1490);
+        }
+        // left
+        if (cmd5 == 1) {
+            _lmotor.set_speed(2500);
+            _rmotor.set_speed(1500);
+        }
+        // right
+        if (cmd6 == 1) {
+            _lmotor.set_speed(1500);
+            _rmotor.set_speed(500);
+        }
+
+
+
+//
+//        std::cout << "Analog X: " << std::to_string(_analogX) << " Analog Y: " << std::to_string(_analogY) << std::endl;
+//
+
+//        _lmotor.set_speed(_analogX);
+//        _rmotor.set_speed(_analogY);
+
         // backward
         if (_commands_list.at(0) == "S 0 0") {
             _lmotor.set_speed(500);
@@ -73,6 +121,7 @@ void CCar::update() {
             if (_rmotor.get_speed() < 1500 && _rmotor.get_speed() > 500)
                 _rmotor.set_speed(_rmotor.get_speed() + 100);
         }
+
     }
 }
 

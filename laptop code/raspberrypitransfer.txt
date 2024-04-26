@@ -1,0 +1,63 @@
+#include "pigpio.h"
+#include <thread>
+#include <chrono>
+
+class CMotor
+{
+private:
+    int _leftPinPWM;
+    int _rightPinPWM;
+public:
+    CMotor(int leftPinPWM, int rightPinPWM);
+    ~CMotor();
+    void forward(float speed, float duration);
+    void backward(float speed, float duration);
+    void left(float speed, float duration);
+    void right(float speed, float duration);
+    void stop();
+};
+
+CMotor::CMotor(int leftPinPWM, int rightPinPWM) : _leftPinPWM(leftPinPWM), _rightPinPWM(rightPinPWM) {
+    if (gpioInitialise() < 0) {
+        std::cerr << "GPIO initialization failed" << std::endl;
+    }
+    gpioSetMode(_leftPinPWM, PI_OUTPUT);
+    gpioSetMode(_rightPinPWM, PI_OUTPUT);
+}
+
+CMotor::~CMotor() {
+    gpioTerminate();
+}
+
+void CMotor::forward(float speed, float duration) {
+    gpioPWM(_leftPinPWM, speed * 255);
+    gpioPWM(_rightPinPWM, speed * 255);
+    std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(duration * 1000)));
+    stop();
+}
+
+void CMotor::backward(float speed, float duration) {
+    gpioPWM(_leftPinPWM, (1 - speed) * 127);
+    gpioPWM(_rightPinPWM, (1 - speed) * 127);
+    std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(duration * 1000)));
+    stop();
+}
+
+void CMotor::left(float speed, float duration) {
+    gpioPWM(_leftPinPWM, (1 - speed) * 127);
+    gpioPWM(_rightPinPWM, speed * 255);
+    std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(duration * 1000)));
+    stop();
+}
+
+void CMotor::right(float speed, float duration) {
+    gpioPWM(_leftPinPWM, speed * 255);
+    gpioPWM(_rightPinPWM, (1 - speed) * 127);
+    std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(duration * 1000)));
+    stop();
+}
+
+void CMotor::stop() {
+    gpioPWM(_leftPinPWM, 127);
+    gpioPWM(_rightPinPWM, 127);
+}

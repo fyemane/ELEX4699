@@ -3,6 +3,7 @@
 #include <chrono>
 #include <thread>
 #include <opencv2/opencv.hpp>
+#include <sstream>
 
 #include "server.h"
 #include "Client.h"
@@ -25,6 +26,10 @@ private:
     int _arena_server_port;
 
     std::vector<std::string> _commands_list;
+
+    double _analogX, _analogY;
+    std::string cmd1;
+    double cmd2, cmd3, cmd4, cmd5, cmd6;
 
     bool _thread_exit;
 
