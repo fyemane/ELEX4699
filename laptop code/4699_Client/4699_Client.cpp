@@ -1,0 +1,122 @@
+////////////////////////////////////////////////////////////////
+// ELEX 4618 Client Template project for BCIT
+// Created Oct 5, 2016 by Craig Hennessey
+// Last updated April 2022
+////////////////////////////////////////////////////////////////
+#include "stdafx.h"
+
+#include <string>
+#include <iostream>
+#include <thread>
+
+#include "Client.h"
+
+std::string server_ip = "192.168.137.229"; /*"10.0.0.223";*/
+int server_port = 4618;
+
+float timeout_start;
+
+void print_menu()
+{
+	std::cout << "\n***********************************";
+	std::cout << "\n* ELEX4618 Client Project";
+	std::cout << "\n***********************************";
+	std::cout << "\n(1) Set system ON";
+	std::cout << "\n(2) Set system OFF";
+	std::cout << "\n(3) Set color sort to Bin 1";
+	std::cout << "\n(4) Set color sort to Bin 2";
+	std::cout << "\n(5) Set color sort to Bin 3";
+	std::cout << "\n(6) Set color sort to Bin 4";
+	std::cout << "\n(7) Get system status"; 
+	std::cout << "\n(8) Get # balls in Bin 1";
+	std::cout << "\n(9) Get # balls in Bin 2";
+	std::cout << "\n(10) Get # balls in Bin 3";
+	std::cout << "\n(11) Get # balls in Bin 4";
+	std::cout << "\n(12) Get image";
+	std::cout << "\n(0) Exit";
+	std::cout << "\nCMD> ";
+}
+
+void send_command(CClient& client, std::string cmd)
+{
+	std::string str;
+
+	client.tx_str(cmd);
+	std::cout << "\nClient Tx: " << cmd;
+
+	if (cmd == "G 2 \n")
+	{
+		cv::Mat im;
+
+		if (client.rx_im(im) == true)
+		{
+			std::cout << "True" << std::endl;
+			timeout_start = cv::getTickCount();
+			if (im.empty() == false)
+			{
+				std::cout << "\nClient Rx: Image received";
+				cv::imshow("rx", im);
+				cv::waitKey(10);
+			}
+		}
+		else
+		{
+			if ((cv::getTickCount() - timeout_start) / cv::getTickFrequency() > 1000)
+			{
+				// No response, disconnect and reconnect
+				timeout_start = cv::getTickCount();
+				client.close_socket();
+				client.connect_socket(server_ip, server_port);
+			}
+		}
+	}
+	else
+	{
+		if (client.rx_str(str) == true)
+		{
+			timeout_start = cv::getTickCount();
+			std::cout << "\nClient Rx: " << str;
+		}
+		else
+		{
+			if ((cv::getTickCount() - timeout_start) / cv::getTickFrequency() > 1000)
+			{
+				// No response, disconnect and reconnect
+				timeout_start = cv::getTickCount();
+				client.close_socket();
+				client.connect_socket(server_ip, server_port);
+			}
+		}
+	}
+}
+
+int main(int argc, char* argv[])
+{
+	CClient client;
+	int cmd = -1;
+
+	timeout_start = cv::getTickCount();
+	client.connect_socket(server_ip, server_port);
+
+	do
+	{
+		print_menu();
+		std::cin >> cmd;
+
+		switch (cmd)
+		{
+		case 1: send_command(client, "S 0 1 \n"); break;
+		case 2: send_command(client, "S 0 0 \n"); break;
+		case 3: send_command(client, "S 1 0 \n"); break;
+		case 4: send_command(client, "S 1 1 \n"); break;
+		case 5: send_command(client, "S 1 2 \n"); break;
+		case 6: send_command(client, "S 1 3 \n"); break;
+		case 7: send_command(client, "G 0 \n"); break;
+		case 8: send_command(client, "G 1 0 \n"); break;
+		case 9: send_command(client, "G 1 1 \n"); break;
+		case 10: send_command(client, "G 1 2 \n"); break;
+		case 11: send_command(client, "G 1 3 \n"); break;
+		case 12: while (true) { send_command(client, "G 2 \n"); }; break;
+		}
+	} while (cmd != 0);
+}
