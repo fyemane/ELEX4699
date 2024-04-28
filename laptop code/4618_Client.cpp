@@ -23,7 +23,7 @@
 
 #define CANVAS_NAME "Display Image"
 
-std::string server_ip = "192.168.0.100"; /*"10.0.0.223";*/
+std::string server_ip = "192.168.137.132"; /*"10.0.0.223";*/
 int server_port = 4012;
 
 float timeout_start;
@@ -117,27 +117,25 @@ int main(int argc, char* argv[])
 		print_menu();
 		std::cin >> cmd;
 
-
-
 		switch (cmd)
 		{
 			//case 1: send_command(client, "S 1"); break; // on
 			//case 2: send_command(client, "S 0"); break; // off
-		case 2: send_command(client, "S 0 0"); break; // backward
-		case 8: send_command(client, "S 0 1"); break; // forward
-		case 4: send_command(client, "S 0 2"); break; // left
-		case 6: send_command(client, "S 0 3"); break; // right
-		case 5: send_command(client, "S 0 4"); break; // stop
+			case 2: send_command(client, "S 0 0"); break; // backward
+			case 8: send_command(client, "S 0 1"); break; // forward
+			case 4: send_command(client, "S 0 2"); break; // left
+			case 6: send_command(client, "S 0 3"); break; // right
+			case 5: send_command(client, "S 0 4"); break; // stop
 			//case 8: send_command(client, "S 0 5"); break; // speed up
-		case 9: send_command(client, "S 0 6"); break; // slow down
-		case 7: while (true) {
-			control.get_analog(2, analogX);
-			control.get_analog(26, analogY);
-			control.get_digital(32, buttonValue1);
-			control.get_digital(33, buttonValue2);
-			send_command(client, "S 0 " + std::to_string(analogX) + " " + std::to_string(analogY) + " " + std::to_string(!buttonValue1) + " " + std::to_string(!buttonValue2));
-		}
-		case 1: while (true) { send_command(client, "G 1"); cv::waitKey(20); }; break;
+			case 9: send_command(client, "S 0 6"); break; // slow down
+			case 7: while (true) {
+				control.get_analog(2, analogX);
+				control.get_analog(26, analogY);
+				control.get_digital(32, buttonValue1);
+				control.get_digital(33, buttonValue2);
+				send_command(client, "S 0 " + std::to_string(analogX) + " " + std::to_string(analogY) + " " + std::to_string(!buttonValue1) + " " + std::to_string(!buttonValue2));
+			}
+			case 1: while (true) { send_command(client, "G 1"); cv::waitKey(20); };break;
 		}
 	} while (cmd != 0);
 } 
