@@ -53,49 +53,49 @@ void send_command(CClient& client, std::string cmd)
 	client.tx_str(cmd);
 	std::cout << "\nClient Tx: " << cmd;
 
-	//if (cmd == "G 1")
-	//{
-	//	cv::Mat im;
+	if (cmd == "G 1")
+	{
+		cv::Mat im;
 
-	//	if (client.rx_im(im) == true)
-	//	{
-	//		std::cout << "True" << std::endl;
-	//		timeout_start = cv::getTickCount();
-	//		if (im.empty() == false)
-	//		{
-	//			std::cout << "\nClient Rx: Image received";
-	//			cv::imshow("rx", im);
-	//			cv::waitKey(10);
-	//		}
-	//	}
-	//	else
-	//	{
-	//		if ((cv::getTickCount() - timeout_start) / cv::getTickFrequency() > 1000)
-	//		{
-	//			// No response, disconnect and reconnect
-	//			timeout_start = cv::getTickCount();
-	//			client.close_socket();
-	//			client.connect_socket(server_ip, server_port);
-	//		}
-	//	}
-	//}
-	//else	{
-	//	if (client.rx_str(str) == true)
-	//	{
-	//		timeout_start = cv::getTickCount();
-	//		std::cout << "\nClient Rx: " << str;
-	//	}
-	//	else
-	//	{
-	//		if ((cv::getTickCount() - timeout_start) / cv::getTickFrequency() > 1000)
-	//		{
-	//			// No response, disconnect and reconnect
-	//			timeout_start = cv::getTickCount();
-	//			client.close_socket();
-	//			client.connect_socket(server_ip, server_port);
-	//		}
-	//	}
-	//}
+		if (client.rx_im(im) == true)
+		{
+			std::cout << "True" << std::endl;
+			timeout_start = cv::getTickCount();
+			if (im.empty() == false)
+			{
+				std::cout << "\nClient Rx: Image received";
+				cv::imshow("rx", im);
+				cv::waitKey(10);
+			}
+		}
+		else
+		{
+			if ((cv::getTickCount() - timeout_start) / cv::getTickFrequency() > 1000)
+			{
+				// No response, disconnect and reconnect
+				timeout_start = cv::getTickCount();
+				client.close_socket();
+				client.connect_socket(server_ip, server_port);
+			}
+		}
+	}
+	else	{
+		if (client.rx_str(str) == true)
+		{
+			timeout_start = cv::getTickCount();
+			std::cout << "\nClient Rx: " << str;
+		}
+		else
+		{
+			if ((cv::getTickCount() - timeout_start) / cv::getTickFrequency() > 1000)
+			{
+				// No response, disconnect and reconnect
+				timeout_start = cv::getTickCount();
+				client.close_socket();
+				client.connect_socket(server_ip, server_port);
+			}
+		}
+	}
 }
 
 int main(int argc, char* argv[])
