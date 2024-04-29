@@ -93,7 +93,7 @@ void CController::handleUserInput() {
 }
 
 void CController::sendUserCommands() {
-	send_command(_client, "S 0 " + std::to_string(_analogX) + " " + std::to_string(_analogY) + " " + std::to_string(~_buttonValue1) + " " + std::to_string(~_buttonValue2));
+	send_command(_client, "S 0 " + std::to_string(_analogX) + " " + std::to_string(_analogY) + " " + std::to_string(!_buttonValue1) + " " + std::to_string(!_buttonValue2));
 }
 
 void CController::sendUserCommands_thread(CController* ptr) {
