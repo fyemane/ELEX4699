@@ -37,7 +37,7 @@ void CCommunication::send_command(CClient& client, std::string cmd)
 	std::string str;
 
 	client.tx_str(cmd);
-	std::cout << "\nClient Tx: " << cmd;
+	std::cout << "\nClient Tx: " << cmd << std::endl;
 
 	if (cmd == "G 1")
 	{

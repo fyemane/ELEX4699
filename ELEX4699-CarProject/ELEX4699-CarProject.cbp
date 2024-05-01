@@ -53,9 +53,7 @@
 		<Unit filename="CMotor.cpp" />
 		<Unit filename="CMotor.h" />
 		<Unit filename="CPong.cpp" />
-		<Unit filename="CPong.h" />
 		<Unit filename="CSketch.cpp" />
-		<Unit filename="CSketch.h" />
 		<Unit filename="Client.cpp" />
 		<Unit filename="Client.h" />
 		<Unit filename="Constants.h" />

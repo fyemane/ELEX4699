@@ -23,10 +23,6 @@
 
 #define CANVAS_NAME "Display Image"
 
-std::string server_ip = "192.168.0.100"; /*"10.0.0.223";*/
-int server_port = 4012;
-
-float timeout_start;
 
 void print_menu()
 {

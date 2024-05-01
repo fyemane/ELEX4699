@@ -1,6 +1,11 @@
-#include "pigpio.h"
+#include <algorithm>
+#include <iostream>
 #include <thread>
 #include <chrono>
+
+#include "pigpio.h"
+#include "Constants.h"
+#include "CControlPi.h"
 
 class CMotor
 {

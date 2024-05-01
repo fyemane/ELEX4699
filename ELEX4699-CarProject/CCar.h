@@ -31,22 +31,38 @@ private:
     std::string cmd1;
     double cmd2, cmd3, cmd4, cmd5, cmd6;
 
+    cv::Size _canvasSize;
+    cv::VideoCapture _vid;
+    cv::Mat _canvas;
+    cv::Mat _vidFrame;
+    cv::Mat _persistentCanvas; ///< Mat to store persistent drawing.
+    cv::Point gui_position; ///< Position for graphical user interface.
+
+
     bool _thread_exit;
+    bool _resetFlag, _exitFlag; ///< Flags for resetting and exiting the application.
+
 
 public:
     CCar();
     ~CCar();
 
     void update();
+    void draw();
+    void drawImage(cv::Mat& canvas, cv::Point position, cv::Mat& image);
 
     // drive functions
     void lmotor_drive();
     void rmotor_drive();
 
+    void get_commands();
+
     // motor drive threads
     static void lmotor_drive_thread(CCar* ptr);
     static void rmotor_drive_thread(CCar* ptr);
-    static void serverstart_thread(CCar* ptr);
+    static void get_commands_thread(CCar* ptr);
+    static void draw_thread(CCar* ptr);
+    static void update_thread(CCar* ptr);
 
 
     void run();
