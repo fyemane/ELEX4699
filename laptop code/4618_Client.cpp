@@ -29,13 +29,26 @@ void print_menu()
 	std::cout << "\n***********************************";
 	std::cout << "\n* ELEX4699 Client Project";
 	std::cout << "\n***********************************";
-	std::cout << "\n(1) Turn on controller input";
-	std::cout << "\n(0) Exit";
+	std::cout << "\n(1) Pi client";
+	std::cout << "\n(0) Arena client";
 	std::cout << "\nCMD> ";
 }
 
 int main(int argc, char* argv[])
 {
-	CController controller;
-	controller.run();
+   int userInput;
+   print_menu();
+   std::cin >> userInput;
+
+   if (userInput == 0 || userInput == 1)
+   {
+      CController controller(userInput);
+      controller.run();
+   }
+   else
+   {
+      std::cout << "Invalid input! Please enter either 0 or 1." << std::endl;
+   }
+
+   return 0;
 } 

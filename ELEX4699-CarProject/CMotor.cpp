@@ -17,7 +17,6 @@ void CMotor::go() {
     gpioServo(_pinPWM, _speed);
 }
 
-
 void CMotor::stop() {
     _speed = 1500;
 }

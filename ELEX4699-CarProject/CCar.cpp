@@ -11,6 +11,8 @@ CCar::CCar() {
     _analogX = 0;
     _analogY = 0;
 
+    _shoot_speed = 2000;
+
     // for drawing
     _canvasSize = cv::Size(700, 700);
     _canvas = cv::Mat::zeros(_canvasSize, CV_8UC3);
@@ -56,34 +58,40 @@ void CCar::update() {
 
         //        _analogX = cmd3 / 4096.0 * 2000 + 500;
     //        _analogY = cmd4 / 4096.0 * 2000 + 500;
+        _analogX = cmd3 / 4096.0;
         _analogY  = cmd4 / 4096.0;
 
-        if (_analogY > 0.6) {
+        if (_analogX > .3 && _analogX < .7 && _analogY > 0.7) {
             // forward
             _lmotor.set_speed(2500);
             _rmotor.set_speed(1417);
         }
-        else if (_analogY < 0.4) {
+        else if (_analogX > .3 && _analogX < .7 && _analogY < 0.3) {
             // backward
             _lmotor.set_speed(500);
             _rmotor.set_speed(1565);
+        }
+        // left
+        else if (_analogY > .3 && _analogY < .7 && _analogX < .3 ) {
+            _lmotor.set_speed(2500);
+            _rmotor.set_speed(1500);
+        }
+        // right
+        else if (_analogY > .3 && _analogY < .7 && _analogX > .7 ) {
+            _lmotor.set_speed(1500);
+            _rmotor.set_speed(500);
         }
         // stop
         else {
             _lmotor.set_speed(1500);
             _rmotor.set_speed(1490);
         }
-        // left
-        if (cmd5 == 1) {
-            _lmotor.set_speed(2500);
-            _rmotor.set_speed(1500);
-        }
-        // right
-        if (cmd6 == 1) {
-            _lmotor.set_speed(1500);
-            _rmotor.set_speed(500);
-        }
 
+        if (cmd5 == 1) {
+            shoot();
+        }else {
+            shoot_stop();
+        }
 
 
 //
@@ -144,6 +152,14 @@ void CCar::update() {
     }
 }
 
+void CCar::shoot() {
+    gpioServo(GUN_OUTPUT_PIN, _shoot_speed);
+}
+
+void CCar::shoot_stop() {
+    gpioServo(GUN_OUTPUT_PIN, 1500);
+}
+
 void CCar::get_commands() {
     _pi_server.get_cmd(_commands_list);
 }
@@ -152,7 +168,6 @@ void CCar::get_commands() {
 void CCar::draw() {
     _canvas = _persistentCanvas.clone();  // clear canvas
     drawImage(_canvas, cv::Point(3, 3), _vidFrame);
-
 
         // Display the canvas on the window
     if (!_exitFlag) {

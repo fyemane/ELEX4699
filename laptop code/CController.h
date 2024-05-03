@@ -31,16 +31,22 @@ private:
    int _buttonValue2;
    int _shoot;
 
-   cv::Mat _canvas;
+   cv::Mat im;
 
    bool _thread_exit;
    bool _autodrive;
+   bool _is_pi;
+
+   std::mutex _display_mutex;
+   std::mutex _send_mutex;
+
 
 public:
-   CController();
+   CController(int server);
    ~CController();
 
    void send_command(CClient& client, std::string cmd, std::string ip, int port);
+   void send_command_locked(CClient& client, std::string cmd, std::string ip, int port);
    void run();
 
    // functions to be threaded

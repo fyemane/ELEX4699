@@ -27,6 +27,8 @@ private:
 
     std::vector<std::string> _commands_list;
 
+    int _shoot_speed;
+
     double _analogX, _analogY;
     std::string cmd1;
     double cmd2, cmd3, cmd4, cmd5, cmd6;
@@ -54,6 +56,8 @@ public:
     // drive functions
     void lmotor_drive();
     void rmotor_drive();
+    void shoot();
+    void shoot_stop();
 
     void get_commands();
 

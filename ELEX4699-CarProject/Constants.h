@@ -7,5 +7,6 @@
 
 #define LMOTOR_OUTPUT_PIN 18
 #define RMOTOR_OUTPUT_PIN 23
+#define GUN_OUTPUT_PIN 24
 
 #endif // CONSTANTS_H
