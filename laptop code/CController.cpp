@@ -5,7 +5,7 @@ CController::CController(int server) {
 	// smc - 192.168.0.104
 	// home - 10.0.0.223
 
-	_pi_server_ip = "192.168.0.100";
+	_pi_server_ip = "192.168.0.117";
 	_pi_server_port = 4012;
 	_arena_server_ip = "192.168.0.101";
 	_arena_server_port = 5012;
