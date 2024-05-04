@@ -23,7 +23,6 @@
 
 #define CANVAS_NAME "Display Image"
 
-
 void print_menu()
 {
 	std::cout << "\n***********************************";
