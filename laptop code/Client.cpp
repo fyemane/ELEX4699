@@ -132,7 +132,7 @@ bool CClient::rx_im(cv::Mat &im)
 	} 
   while (rxbytes == -1 && (cv::getTickCount() - start_time) / cv::getTickFrequency() < 1.0);  // Timeout after 1 second
 
-  std::cout << "\nRXbytes = " << rxbytes;
+  //std::cout << "\nRXbytes = " << rxbytes;
 
   // If all the bytes were recieved, decode JPEG data to image (assumes image size minimum is 5kB)
 	if (rxbytes > minimum_image_size)

@@ -221,7 +221,7 @@ void CServer::start(int port)
             //std::cout << "\nServer RX: " << str;
 
             // The client sent "im" as a message
-            if (str == "G 2 \n")
+            if (str == "G 1")
             {
               _image_mutex.lock();
 //               cv::imshow("imagetosend", frame);
