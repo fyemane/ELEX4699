@@ -8,7 +8,7 @@ CController::CController(int server) {
 	_pi_server_ip = "192.168.0.117";
 	_pi_server_port = 4012;
 	_arena_server_ip = "192.168.0.101";
-	_arena_server_port = 5012;
+	_arena_server_port = 5012; 
 
 	_cmd = -1;
 
@@ -24,11 +24,11 @@ CController::CController(int server) {
 
 	_control.init_com(4);
 
-	_analogX = 0;
-	_analogY = 0;
-	_buttonValue1 = 0;
-	_buttonValue2 = 0;
-	_shoot = 0;
+	//_analogX = 0;
+	//_analogY = 0;
+	//_buttonValue1 = 0;
+	//_buttonValue2 = 0;
+	//_shoot = 0;
 
 	_is_pi = server;
 	_thread_exit = false;
@@ -46,7 +46,7 @@ void CController::send_command(CClient& client, std::string cmd, std::string ip,
 
 	client.tx_str(cmd);
 	//std::cout << "\nClient Tx: " << cmd;
-	cv::waitKey(30);
+	cv::waitKey(50);
 
 	if (cmd == "G 1")
 	{
@@ -57,11 +57,12 @@ void CController::send_command(CClient& client, std::string cmd, std::string ip,
 			if (im.empty() == false)
 			{
 				//std::cout << "\nClient Rx: Image received";
-				std::lock_guard<std::mutex> lock(_display_mutex); // Lock access to imshow
+				//std::lock_guard<std::mutex> lock(_display_mutex); // Lock access to imshow
 				if (port == _pi_server_port) {
 					cv::imshow("pi", im);
 				}
 				else {
+					//cv::waitKey(50);
 					cv::imshow("arena", im);
 				}
 			}
@@ -123,7 +124,7 @@ void CController::handleUserInput() {
 
 void CController::sendPiCommands() {
 	// S 0 AnalogX AnalogY ButtonValue1 ButtonValue 2
-	send_command(_pi_client, "S 0 " + std::to_string(_analogX) + " " + std::to_string(_analogY) + " " + std::to_string(!_buttonValue1) + " " + std::to_string(!_buttonValue2),
+	send_command(_pi_client, "S 0 " + std::to_string(_analogX) + " " + std::to_string(_analogY) + " " + std::to_string(_buttonValue1) + " " + std::to_string(_buttonValue2),
 		_pi_server_ip, _pi_server_port);
 	send_command(_pi_client, "G 1", _pi_server_ip, _pi_server_port);
 

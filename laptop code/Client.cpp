@@ -121,7 +121,7 @@ bool CClient::rx_im(cv::Mat &im)
 	char rxbuff[BUFF_SIZE];
 	int rxbytes = -1;
   int imagebytes = 0;
-  int minimum_image_size = 1000;
+  int minimum_image_size = 10000;
 
   double start_time = cv::getTickCount();
 
