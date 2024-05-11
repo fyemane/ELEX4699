@@ -25,10 +25,14 @@ CController::CController(int server) {
 
 	//_control.init_com(4);
 
-	_analogX = 0;
-	_analogY = 0;
-	_buttonValue1 = 0;
-	_buttonValue2 = 0;
+	_analogLX = 0;
+	_analogLY = 0;
+	_analogRX = 0;
+	_analogRY = 0;
+	_buttonX = 0;
+	_buttonY = 0;
+	_buttonB = 0;
+	_buttonA = 0;
 	_shoot = 0;
 
 	_is_pi = server;
@@ -115,35 +119,37 @@ void CController::draw() {
 }
 
 void CController::handleUserInput() {
-	/*if (!_autodrive) {
-		_control.get_analog(2, _analogX);
-		_control.get_analog(26, _analogY);
-		_control.get_digital(32, _buttonValue1);
-		_control.get_digital(33, _buttonValue2);
-	}*/
-
-	// Xbox controller code goes here
-	XINPUT_STATE state;
+	
 	ZeroMemory(&state, sizeof(XINPUT_STATE));
-
-	// Simply get the state of the controller from XInput.
 	dwResult = XInputGetState(0, &state);
 
 	if (dwResult == ERROR_SUCCESS)
 	{
 		// Controller is connected
-		std::cout << "Controller detected!\n";
+		//std::cout << "Controller detected!\n";
+
+		//_analogLX = state.Gamepad.sThumbLX;
+		_analogLY = state.Gamepad.sThumbLY;
+		_analogRX = state.Gamepad.sThumbRX;
+		//_analogRY = state.Gamepad.sThumbRY;
+
+		_buttonX = state.Gamepad.wButtons & _XINPUT_GAMEPAD_X;
+		_buttonY = state.Gamepad.wButtons & _XINPUT_GAMEPAD_Y;
+		_buttonB = state.Gamepad.wButtons & _XINPUT_GAMEPAD_B;
+
+		//std::cout << "LY: " << _analogLY << "   RX: " << _analogRX << "   X: " << _buttonX << "   Y: " << _buttonY << "   B: " << _buttonB << std::endl;
 	}
 	else
 	{
 		// Controller is not connected
+		std::cout << "Xbox controller not detected...";
 	}
 
 }
 
 void CController::sendPiCommands() {
 	// S 0 AnalogX AnalogY ButtonValue1 ButtonValue 2
-	send_command(_pi_client, "S 0 " + std::to_string(_analogX) + " " + std::to_string(_analogY) + " " + std::to_string(_buttonValue1) + " " + std::to_string(_buttonValue2), _pi_server_ip, _pi_server_port);
+	send_command(_pi_client, "S 0 " + std::to_string(_analogLY) + " " + std::to_string(_analogRX) + " " + std::to_string(_buttonX) + " " + std::to_string(_buttonY) + " " + std::to_string(_buttonB), _pi_server_ip, _pi_server_port);
 	send_command(_pi_client, "G 1", _pi_server_ip, _pi_server_port);
 }
 

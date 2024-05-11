@@ -1,6 +1,10 @@
 #pragma once
 
 #define _AMD64_ 1
+#define _XINPUT_GAMEPAD_A	0x1000
+#define _XINPUT_GAMEPAD_B	0x2000
+#define _XINPUT_GAMEPAD_X	0x4000
+#define _XINPUT_GAMEPAD_Y	0x8000
 
 #include <string>
 #include <iostream>
@@ -27,13 +31,18 @@ private:
    int _pi_server_port, _arena_server_port;
 
    int _cmd;
-   int _analogX;
-   int _analogY;
-   int _buttonValue1;
-   int _buttonValue2;
+   int _analogLX;
+   int _analogLY;
+   int _analogRX;
+   int _analogRY;
+   int _buttonX;
+   int _buttonY;
+   int _buttonB;
+   int _buttonA;
    int _shoot;
 
    DWORD dwResult;
+   XINPUT_STATE state;
 
    cv::Mat im;
 
