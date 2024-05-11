@@ -31,6 +31,7 @@ private:
    int _buttonValue1;
    int _buttonValue2;
    int _shoot;
+   int _arena_text_size;
 
    std::string str;
    cv::Mat im;
