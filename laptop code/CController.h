@@ -36,10 +36,12 @@ private:
    int _buttonB;
    int _buttonA;
    int _shoot;
+   int _arena_text_size;
 
    DWORD dwResult;
    XINPUT_STATE state;
 
+   std::string str;
    cv::Mat im;
 
    bool _thread_exit;

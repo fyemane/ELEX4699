@@ -12,6 +12,7 @@ CController::CController(int server) {
 	_arena_server_port = 5012; 
 
 	_cmd = -1;
+	_arena_text_size = 0.8;
 
 	_timeout_start = cv::getTickCount();
 
@@ -48,8 +49,6 @@ CController::~CController() {
 
 void CController::send_command(CClient& client, std::string cmd, std::string ip, int port)
 {
-	std::string str;
-
 	client.tx_str(cmd);
 	std::cout << "\nClient Tx: " << cmd;
 	cv::waitKey(50);
@@ -69,10 +68,43 @@ void CController::send_command(CClient& client, std::string cmd, std::string ip,
 				}
 				else {
 					//cv::waitKey(50);
-					cv::imshow("arena", im);
+					// Check if str has the correct beginning
+					if (str.find("<ARENA TIME=\"") == 0) {
+						// Parse the received string
+						std::size_t pos_start = str.find("TIME=\"") + 6;
+						std::size_t pos_end = str.find("\"", pos_start);
+						std::string time_str = str.substr(pos_start, pos_end - pos_start);
+
+						pos_start = str.find("D1=\"") + 4;
+						pos_end = str.find("\"", pos_start);
+						std::string d1_str = str.substr(pos_start, pos_end - pos_start);
+
+						pos_start = str.find("D2=\"") + 4;
+						pos_end = str.find("\"", pos_start);
+						std::string d2_str = str.substr(pos_start, pos_end - pos_start);
+
+						pos_start = str.find("D3=\"") + 4;
+						pos_end = str.find("\"", pos_start);
+						std::string d3_str = str.substr(pos_start, pos_end - pos_start);
+
+						pos_start = str.find("D4=\"") + 4;
+						pos_end = str.find("\"", pos_start);
+						std::string d4_str = str.substr(pos_start, pos_end - pos_start);
+
+						std::cout << "TIME: " << time << "s D1: " << d1_str << " D2: " << d2_str << " D3: " << d3_str << " D4: " << d4_str << std::endl;
+
+						// Overlay text on the image
+						cv::putText(im, time_str, cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 0.6, (time_str == "0.000000") ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 0, 255), 2);
+						cv::putText(im, "D1: " + d1_str, cv::Point(0, 260), cv::FONT_HERSHEY_SIMPLEX, 0.6, (d1_str == "0") ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 0, 255), 2);
+						cv::putText(im, "D2: " + d2_str, cv::Point(220, 30), cv::FONT_HERSHEY_SIMPLEX, 0.6, (d2_str == "0") ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 0, 255), 2);
+						cv::putText(im, "D3: " + d3_str, cv::Point(530, 260), cv::FONT_HERSHEY_SIMPLEX, 0.6, (d3_str == "0") ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 0, 255), 2);
+						cv::putText(im, "D4: " + d4_str, cv::Point(220, 590), cv::FONT_HERSHEY_SIMPLEX, 0.6, (d4_str == "0") ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 0, 255), 2);
+
+						cv::imshow("arena", im);
+					}
+					}
 				}
 			}
-		}
 		else
 		{
 			if ((cv::getTickCount() - _timeout_start) / cv::getTickFrequency() > 1000)
@@ -124,8 +156,7 @@ void CController::handleUserInput() {
 	ZeroMemory(&state, sizeof(XINPUT_STATE));
 	dwResult = XInputGetState(0, &state);
 
-	if (dwResult == ERROR_SUCCESS)
-	{
+	if (dwResult == ERROR_SUCCESS) {
 		// Controller is connected
 		//std::cout << "Controller detected!\n";
 
@@ -140,8 +171,7 @@ void CController::handleUserInput() {
 
 		//std::cout << "LY: " << _analogLY << "   RX: " << _analogRX << "   X: " << _buttonX << "   Y: " << _buttonY << "   B: " << _buttonB << std::endl;
 	}
-	else
-	{
+	else {
 		// Controller is not connected
 		std::cout << "Xbox controller not detected...";
 	}
