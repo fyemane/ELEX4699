@@ -1,5 +1,10 @@
 #pragma once
 
+#define _AMD64_ 1
+#define _XINPUT_GAMEPAD_A	0x1000
+#define _XINPUT_GAMEPAD_B	0x2000
+#define _XINPUT_GAMEPAD_X	0x4000
+#define _XINPUT_GAMEPAD_Y	0x8000
 
 #include <string>
 #include <iostream>
@@ -7,13 +12,11 @@
 #include <sstream>
 #include <thread>
 #include <conio.h>
-#include <bitset>
+#include <Xinput.h>
 
 #include "Client.h"
-#include "CControl.h"
 
-class CController
-{
+class CController {
 private:
    CClient _pi_client, _arena_client;
 
@@ -21,17 +24,22 @@ private:
 
    float _timeout_start;
 
-   CControl _control;
-
    int _pi_server_port, _arena_server_port;
 
    int _cmd;
-   int _analogX;
-   int _analogY;
-   int _buttonValue1;
-   int _buttonValue2;
+   int _analogLX;
+   int _analogLY;
+   int _analogRX;
+   int _analogRY;
+   int _buttonX;
+   int _buttonY;
+   int _buttonB;
+   int _buttonA;
    int _shoot;
    int _arena_text_size;
+
+   DWORD dwResult;
+   XINPUT_STATE state;
 
    std::string str;
    cv::Mat im;

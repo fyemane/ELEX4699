@@ -18,7 +18,6 @@
 #include <conio.h>
 
 #include "Client.h"
-#include "CControl.h"
 #include "CController.h"
 
 #define CANVAS_NAME "Display Image"
@@ -38,6 +37,7 @@ int main(int argc, char* argv[])
    int userInput;
    print_menu();
    std::cin >> userInput;
+   //userInput = 1;
 
    if (userInput == 0 || userInput == 1)
    {

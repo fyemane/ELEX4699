@@ -37,6 +37,7 @@ private:
     cv::VideoCapture _vid;
     cv::Mat _canvas;
     cv::Mat _vidFrame;
+    cv::Mat _processedFrame;
     cv::Mat _persistentCanvas; ///< Mat to store persistent drawing.
     cv::Point gui_position; ///< Position for graphical user interface.
 

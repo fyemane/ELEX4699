@@ -10,8 +10,6 @@ CCar::CCar() {
 
     _shoot_speed = 500;
 
-    _deadzone = .1;
-
     // for drawing
     _canvasSize = cv::Size(700, 700);
     _canvas = cv::Mat::zeros(_canvasSize, CV_8UC3);
@@ -67,42 +65,42 @@ void CCar::update() {
         // parse string
         iss >> cmd1 >> cmd2 >> cmd3 >> cmd4 >> cmd5 >> cmd6;
 
-        _analogX = cmd3 / 4096.0;
-        _analogY  = cmd4 / 4096.0;
-
         if(cmd1 != "G"){
-            if (_analogY > 0.4 && _analogY < 0.6 && _analogX > 0.4 && _analogX < 0.6) {
-            // stop
-                _lmotor.set_speed(1480);
-                _rmotor.set_speed(1500);
-            }
-            else if (_analogY > _analogX && _analogY > 1 - _analogX) {
-            // forward
+            // drive forward
+            if (cmd3 > 12000) {
                 _lmotor.set_speed(1550);
                 _rmotor.set_speed(500);
             }
-            else if (_analogY < _analogX && _analogY < 1 - _analogX) {
-                // backward
+            //drive backwards
+            else if(cmd3 < -12000) {
                 _lmotor.set_speed(1405);
                 _rmotor.set_speed(2500);
             }
-            else if (_analogY > _analogX && _analogY < 1 - _analogX) {
-                // left
-                _lmotor.set_speed(500);
+            // stop driving
+            else {
+                _lmotor.set_speed(1480);
+                _rmotor.set_speed(1500);
+            }
+
+            // turn left
+            if (cmd4 > 12000) {
+                _lmotor.set_speed(1480);
                 _rmotor.set_speed(500);
             }
-            // right
-            else if (_analogY < _analogX && _analogY > 1 - _analogX) {
+            //turn right
+            else if (cmd4 < -12000) {
+                _lmotor.set_speed(2500);
+                _rmotor.set_speed(1500);
+            }
+
+            // rotate CW
+            if (cmd6 > 0) {
                 _lmotor.set_speed(2500);
                 _rmotor.set_speed(2500);
             }
-            // stop
-            // else {
-            //     _lmotor.set_speed(1500);
-            //     _rmotor.set_speed(1500);
-            // }
 
-            if (cmd5 == 0) {
+            // shoot
+            if (cmd5 > 0) {
                 shoot();
             }
             else {

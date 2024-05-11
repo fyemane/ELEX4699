@@ -5,8 +5,8 @@ CController::CController(int server) {
 	// smc - 192.168.0.104
 	// home - 10.0.0.223
 
-	//_pi_server_ip = "192.168.0.117";
-	_pi_server_ip = "192.168.137.132";
+	_pi_server_ip = "192.168.0.117";
+	//_pi_server_ip = "192.168.137.132";
 	_pi_server_port = 4012;
 	_arena_server_ip = "192.168.0.100";
 	_arena_server_port = 5012; 
@@ -24,13 +24,18 @@ CController::CController(int server) {
 
 	}
 
-	_control.init_com(4);
+	ZeroMemory(&state, sizeof(XINPUT_STATE));
+	dwResult = 0;
 
-	//_analogX = 0;
-	//_analogY = 0;
-	//_buttonValue1 = 0;
-	//_buttonValue2 = 0;
-	//_shoot = 0;
+	_analogLX = 0;
+	_analogLY = 0;
+	_analogRX = 0;
+	_analogRY = 0;
+	_buttonX = 0;
+	_buttonY = 0;
+	_buttonB = 0;
+	_buttonA = 0;
+	_shoot = 0;
 
 	_is_pi = server;
 	_thread_exit = false;
@@ -147,58 +152,36 @@ void CController::draw() {
 }
 
 void CController::handleUserInput() {
-	if (!_autodrive) {
-		//_control.get_analog(2, _analogX);
-		//_control.get_analog(26, _analogY);
-		/*_control.get_digital(32, _buttonValue1);
-		_control.get_digital(33, _buttonValue2);*/
+	
+	ZeroMemory(&state, sizeof(XINPUT_STATE));
+	dwResult = XInputGetState(0, &state);
 
-		bool j_pressed = false;
+	if (dwResult == ERROR_SUCCESS) {
+		// Controller is connected
+		//std::cout << "Controller detected!\n";
 
+		//_analogLX = state.Gamepad.sThumbLX;
+		_analogLY = state.Gamepad.sThumbLY;
+		_analogRX = state.Gamepad.sThumbRX;
+		//_analogRY = state.Gamepad.sThumbRY;
 
-		if (_kbhit()) {
-			char move = _getch();
-			switch (move) {
-			case 'w':
-				_analogX = 2048;
-				_analogY = 4000; // Move forward
-				_buttonValue1 = 1;
-				break;
-			case 'a':
-				_analogX = 100; // Move left
-				_analogY = 2048;
-				_buttonValue1 = 0;
-				break;
-			case 's':
-				_analogX = 2048;
-				_analogY = 100; // Move backward
-				_buttonValue1 = 1;
-				break;
-			case 'd':
-				_analogX = 4000; // Move right
-				_analogY = 2048;
-				_buttonValue1 = 1;
-				break;   
-			case 'j':
-				j_pressed = true;
-				break;
+		_buttonX = state.Gamepad.wButtons & _XINPUT_GAMEPAD_X;
+		_buttonY = state.Gamepad.wButtons & _XINPUT_GAMEPAD_Y;
+		//_buttonB = state.Gamepad.wButtons & _XINPUT_GAMEPAD_B;
 
-			default:
-				_analogX = 2048;
-				_analogY = 2048;
-				break;
-			}
-			_buttonValue1 = j_pressed ? 0 : 1;
-		}
+		//std::cout << "LY: " << _analogLY << "   RX: " << _analogRX << "   X: " << _buttonX << "   Y: " << _buttonY << "   B: " << _buttonB << std::endl;
 	}
+	else {
+		// Controller is not connected
+		std::cout << "Xbox controller not detected...";
+	}
+
 }
 
 void CController::sendPiCommands() {
-	// S 0 AnalogX AnalogY ButtonValue1 ButtonValue 2
-	send_command(_pi_client, "S 0 " + std::to_string(_analogX) + " " + std::to_string(_analogY) + " " + std::to_string(_buttonValue1) + " " + std::to_string(_buttonValue2),
-		_pi_server_ip, _pi_server_port);
+	// S 0 AnalogLY AnalogRX ButtonX ButtonY
+	send_command(_pi_client, "S 0 " + std::to_string(_analogLY) + " " + std::to_string(_analogRX) + " " + std::to_string(_buttonX) + " " + std::to_string(_buttonY), _pi_server_ip, _pi_server_port);
 	send_command(_pi_client, "G 1", _pi_server_ip, _pi_server_port);
-
 }
 
 void CController::getPiImage() {
@@ -214,21 +197,18 @@ void CController::getArenaString() {
 }
 
 
-void CController::draw_thread(CController* ptr)
-{
+void CController::draw_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->draw();
 	}
 }
-void CController::update_thread(CController* ptr)
-{
+void CController::update_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->update();
 	}
 }
 
-void CController::handleUserInput_thread(CController* ptr)
-{
+void CController::handleUserInput_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->handleUserInput();
 	}
@@ -241,29 +221,25 @@ void CController::sendPiCommands_thread(CController* ptr) {
 }
 
 
-void CController::getPiImage_thread(CController* ptr)
-{
+void CController::getPiImage_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->getPiImage();
 	}
 }
 
-void CController::getArenaImage_thread(CController* ptr)
-{
+void CController::getArenaImage_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->getArenaImage();
 	}
 }
 
-void CController::getArenaString_thread(CController* ptr)
-{
+void CController::getArenaString_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->getArenaString();
 	}
 }
 
-void CController::run()
-{
+void CController::run() {
 	if (_is_pi) {
 		// create separate joins
 		std::thread handleUserInput_t(&CController::handleUserInput_thread, this);
