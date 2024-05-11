@@ -8,10 +8,9 @@ CCar::CCar() {
     _resetFlag = false;
     _exitFlag = false;
 
-    _analogX = 0;
-    _analogY = 0;
+    _shoot_speed = 500;
 
-    _shoot_speed = 2000;
+    _deadzone = .1;
 
     // for drawing
     _canvasSize = cv::Size(700, 700);
@@ -30,6 +29,10 @@ CCar::CCar() {
 
     // Create window for displaying canvas
     cv::namedWindow("CarProject", cv::WINDOW_AUTOSIZE);
+
+    // robot should not move when the object is created
+    _lmotor.set_speed(1480);
+    _rmotor.set_speed(1500);
 }
 
 CCar::~CCar() {
@@ -41,9 +44,17 @@ void CCar::update() {
 
     // rows is 480, cols is 640
     _vid >> _vidFrame;
+    _vid >> _processedFrame;
 
-    if (_vidFrame.empty() == false)
+    if (_vidFrame.empty() == false) {
         _pi_server.set_txim(_vidFrame);
+
+        // detect markers and update id list and vector list
+        // cv::aruco::detectMarkers(_vidFrame, dictionary, corners, ids);
+        // if (ids.size() > 0) {
+        //     cv::aruco::drawDetectedMarkers(_processedFrame, corners, ids);
+        // }
+    }
 
     _pi_server.get_cmd(_commands_list);
 
@@ -56,99 +67,48 @@ void CCar::update() {
         // parse string
         iss >> cmd1 >> cmd2 >> cmd3 >> cmd4 >> cmd5 >> cmd6;
 
-        //        _analogX = cmd3 / 4096.0 * 2000 + 500;
-    //        _analogY = cmd4 / 4096.0 * 2000 + 500;
         _analogX = cmd3 / 4096.0;
         _analogY  = cmd4 / 4096.0;
 
-        if (_analogX > .3 && _analogX < .7 && _analogY > 0.7) {
+        if(cmd1 != "G"){
+            if (_analogY > 0.4 && _analogY < 0.6 && _analogX > 0.4 && _analogX < 0.6) {
+            // stop
+                _lmotor.set_speed(1480);
+                _rmotor.set_speed(1500);
+            }
+            else if (_analogY > _analogX && _analogY > 1 - _analogX) {
             // forward
-            _lmotor.set_speed(2500);
-            _rmotor.set_speed(1417);
-        }
-        else if (_analogX > .3 && _analogX < .7 && _analogY < 0.3) {
-            // backward
-            _lmotor.set_speed(500);
-            _rmotor.set_speed(1565);
-        }
-        // left
-        else if (_analogY > .3 && _analogY < .7 && _analogX < .3 ) {
-            _lmotor.set_speed(2500);
-            _rmotor.set_speed(1500);
-        }
-        // right
-        else if (_analogY > .3 && _analogY < .7 && _analogX > .7 ) {
-            _lmotor.set_speed(1500);
-            _rmotor.set_speed(500);
-        }
-        // stop
-        else {
-            _lmotor.set_speed(1500);
-            _rmotor.set_speed(1490);
-        }
+                _lmotor.set_speed(1600);
+                _rmotor.set_speed(500);
+            }
+            else if (_analogY < _analogX && _analogY < 1 - _analogX) {
+                // backward
+                _lmotor.set_speed(500);
+                _rmotor.set_speed(2500);
+            }
+            else if (_analogY > _analogX && _analogY < 1 - _analogX) {
+                // left
+                _lmotor.set_speed(500);
+                _rmotor.set_speed(500);
+            }
+            // right
+            else if (_analogY < _analogX && _analogY > 1 - _analogX) {
+                _lmotor.set_speed(2500);
+                _rmotor.set_speed(2500);
+            }
+            // stop
+            // else {
+            //     _lmotor.set_speed(1500);
+            //     _rmotor.set_speed(1500);
+            // }
 
-        if (cmd5 == 1) {
-            shoot();
-        }else {
-            shoot_stop();
-        }
-
-
-//
-//        std::cout << "Analog X: " << std::to_string(_analogX) << " Analog Y: " << std::to_string(_analogY) << std::endl;
-//
-
-//        _lmotor.set_speed(_analogX);
-//        _rmotor.set_speed(_analogY);
-
-        // backward
-//        if (_commands_list.at(0) == "S 0 0") {
-//            _lmotor.set_speed(500);
-//            _rmotor.set_speed(1565);
-//        }
-//        // forward
-//        if (_commands_list.at(0) == "S 0 1") {
-//            _lmotor.set_speed(2500);
-//            _rmotor.set_speed(1417);
-//        }
-//        // left
-//        if (_commands_list.at(0) == "S 0 2") {
-//            _lmotor.set_speed(1500);
-//            _rmotor.set_speed(500);
-//        }
-//        // right
-//        if (_commands_list.at(0) == "S 0 3") {
-//            _lmotor.set_speed(2500);
-//            _rmotor.set_speed(1500);
-//        }
-//        // stop
-//        if (_commands_list.at(0) == "S 0 4") {
-//            _lmotor.set_speed(1500);
-//            _rmotor.set_speed(1490);
-//        }
-//        // speed up
-//        if (_commands_list.at(0) == "S 0 5") {
-//            if (_lmotor.get_speed() > 1500 && _lmotor.get_speed() < 2500)
-//                _lmotor.set_speed(_lmotor.get_speed() + 100);
-//            if (_rmotor.get_speed() > 1500 && _rmotor.get_speed() < 2500)
-//                _rmotor.set_speed(_rmotor.get_speed() + 100);
-//            if (_lmotor.get_speed() < 1500 && _lmotor.get_speed() > 500)
-//                _lmotor.set_speed(_lmotor.get_speed() - 100);
-//            if (_rmotor.get_speed() < 1500 && _rmotor.get_speed() > 500)
-//                _rmotor.set_speed(_rmotor.get_speed() - 100);
-//        }
-//        // slow down
-//        if (_commands_list.at(0) == "S 0 6") {
-//            if (_lmotor.get_speed() > 1500 && _lmotor.get_speed() < 2500)
-//                _lmotor.set_speed(_lmotor.get_speed() - 100);
-//            if (_rmotor.get_speed() > 1500 && _rmotor.get_speed() < 2500)
-//                _rmotor.set_speed(_rmotor.get_speed() - 100);
-//            if (_lmotor.get_speed() < 1500 && _lmotor.get_speed() > 500)
-//                _lmotor.set_speed(_lmotor.get_speed() + 100);
-//            if (_rmotor.get_speed() < 1500 && _rmotor.get_speed() > 500)
-//                _rmotor.set_speed(_rmotor.get_speed() + 100);
-//        }
-
+            if (cmd5 == 1) {
+                shoot();
+            }
+            else {
+                shoot_stop();
+            }
+        }  
     }
 }
 
@@ -167,7 +127,7 @@ void CCar::get_commands() {
 
 void CCar::draw() {
     _canvas = _persistentCanvas.clone();  // clear canvas
-    drawImage(_canvas, cv::Point(3, 3), _vidFrame);
+    drawImage(_canvas, cv::Point(3, 3), _processedFrame);
 
         // Display the canvas on the window
     if (!_exitFlag) {
@@ -181,7 +141,7 @@ void CCar::draw() {
 
 void CCar::drawImage(cv::Mat& canvas, cv::Point position, cv::Mat& image) {
     cv::Rect imageRegion(position.x, position.y, image.cols, image.rows);
-//    cv::rectangle(canvas, cv::Rect(imageRegion.x - 1, imageRegion.y - 1, imageRegion.width + 2, imageRegion.height + 2), cv::Scalar(255, 255, 255), cv::FILLED);
+    //cv::rectangle(canvas, cv::Rect(imageRegion.x - 1, imageRegion.y - 1, imageRegion.width + 2, imageRegion.height + 2), cv::Scalar(255, 255, 255), cv::FILLED);
     image.copyTo(canvas(imageRegion));
 }
 
@@ -221,10 +181,6 @@ void CCar::get_commands_thread(CCar* ptr) {
         ptr->_pi_server.start(4012);
     }
 };
-
-
-
-
 
 void CCar::run() {
     std::thread pi_server_t(&CCar::get_commands_thread, this);
