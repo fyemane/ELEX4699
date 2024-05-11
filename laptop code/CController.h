@@ -7,6 +7,7 @@
 #include <sstream>
 #include <thread>
 #include <conio.h>
+#include <bitset>
 
 #include "Client.h"
 #include "CControl.h"
@@ -31,6 +32,7 @@ private:
    int _buttonValue2;
    int _shoot;
 
+   std::string str;
    cv::Mat im;
 
    bool _thread_exit;
