@@ -1,5 +1,6 @@
 #pragma once
 
+#define _AMD64_ 1
 
 #include <string>
 #include <iostream>
@@ -7,12 +8,13 @@
 #include <sstream>
 #include <thread>
 #include <conio.h>
+//#include <windows.h>
+#include <Xinput.h>
 
 #include "Client.h"
 #include "CControl.h"
 
-class CController
-{
+class CController {
 private:
    CClient _pi_client, _arena_client;
 
@@ -30,6 +32,8 @@ private:
    int _buttonValue1;
    int _buttonValue2;
    int _shoot;
+
+   DWORD dwResult;
 
    cv::Mat im;
 

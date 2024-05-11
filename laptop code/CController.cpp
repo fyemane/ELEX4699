@@ -5,8 +5,8 @@ CController::CController(int server) {
 	// smc - 192.168.0.104
 	// home - 10.0.0.223
 
-	//_pi_server_ip = "192.168.0.117";
-	_pi_server_ip = "192.168.137.132";
+	_pi_server_ip = "192.168.0.117";
+	//_pi_server_ip = "192.168.137.132";
 	_pi_server_port = 4012;
 	_arena_server_ip = "192.168.0.101";
 	_arena_server_port = 5012; 
@@ -23,13 +23,13 @@ CController::CController(int server) {
 
 	}
 
-	_control.init_com(4);
+	//_control.init_com(4);
 
-	//_analogX = 0;
-	//_analogY = 0;
-	//_buttonValue1 = 0;
-	//_buttonValue2 = 0;
-	//_shoot = 0;
+	_analogX = 0;
+	_analogY = 0;
+	_buttonValue1 = 0;
+	_buttonValue2 = 0;
+	_shoot = 0;
 
 	_is_pi = server;
 	_thread_exit = false;
@@ -115,12 +115,30 @@ void CController::draw() {
 }
 
 void CController::handleUserInput() {
-	if (!_autodrive) {
+	/*if (!_autodrive) {
 		_control.get_analog(2, _analogX);
 		_control.get_analog(26, _analogY);
 		_control.get_digital(32, _buttonValue1);
 		_control.get_digital(33, _buttonValue2);
+	}*/
+
+	// Xbox controller code goes here
+	XINPUT_STATE state;
+	ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+	// Simply get the state of the controller from XInput.
+	dwResult = XInputGetState(0, &state);
+
+	if (dwResult == ERROR_SUCCESS)
+	{
+		// Controller is connected
+		std::cout << "Controller detected!\n";
 	}
+	else
+	{
+		// Controller is not connected
+	}
+
 }
 
 void CController::sendPiCommands() {

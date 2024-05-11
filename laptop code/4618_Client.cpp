@@ -37,7 +37,8 @@ int main(int argc, char* argv[])
 {
    int userInput;
    print_menu();
-   std::cin >> userInput;
+   //std::cin >> userInput;
+   userInput = 1;
 
    if (userInput == 0 || userInput == 1)
    {
