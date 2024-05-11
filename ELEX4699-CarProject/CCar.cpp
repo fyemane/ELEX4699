@@ -78,7 +78,7 @@ void CCar::update() {
             }
             else if (_analogY > _analogX && _analogY > 1 - _analogX) {
             // forward
-                _lmotor.set_speed(1545);
+                _lmotor.set_speed(1550);
                 _rmotor.set_speed(500);
             }
             else if (_analogY < _analogX && _analogY < 1 - _analogX) {

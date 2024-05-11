@@ -46,7 +46,7 @@ void CController::send_command(CClient& client, std::string cmd, std::string ip,
 	std::string str;
 
 	client.tx_str(cmd);
-	//std::cout << "\nClient Tx: " << cmd;
+	std::cout << "\nClient Tx: " << cmd;
 	cv::waitKey(50);
 
 	if (cmd == "G 1")
@@ -125,10 +125,8 @@ void CController::handleUserInput() {
 
 void CController::sendPiCommands() {
 	// S 0 AnalogX AnalogY ButtonValue1 ButtonValue 2
-	send_command(_pi_client, "S 0 " + std::to_string(_analogX) + " " + std::to_string(_analogY) + " " + std::to_string(_buttonValue1) + " " + std::to_string(_buttonValue2),
-		_pi_server_ip, _pi_server_port);
+	send_command(_pi_client, "S 0 " + std::to_string(_analogX) + " " + std::to_string(_analogY) + " " + std::to_string(_buttonValue1) + " " + std::to_string(_buttonValue2), _pi_server_ip, _pi_server_port);
 	send_command(_pi_client, "G 1", _pi_server_ip, _pi_server_port);
-
 }
 
 void CController::getPiImage() {
@@ -144,21 +142,18 @@ void CController::getArenaString() {
 }
 
 
-void CController::draw_thread(CController* ptr)
-{
+void CController::draw_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->draw();
 	}
 }
-void CController::update_thread(CController* ptr)
-{
+void CController::update_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->update();
 	}
 }
 
-void CController::handleUserInput_thread(CController* ptr)
-{
+void CController::handleUserInput_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->handleUserInput();
 	}
@@ -171,29 +166,25 @@ void CController::sendPiCommands_thread(CController* ptr) {
 }
 
 
-void CController::getPiImage_thread(CController* ptr)
-{
+void CController::getPiImage_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->getPiImage();
 	}
 }
 
-void CController::getArenaImage_thread(CController* ptr)
-{
+void CController::getArenaImage_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->getArenaImage();
 	}
 }
 
-void CController::getArenaString_thread(CController* ptr)
-{
+void CController::getArenaString_thread(CController* ptr) {
 	while (ptr->_thread_exit == false) {
 		ptr->getArenaString();
 	}
 }
 
-void CController::run()
-{
+void CController::run() {
 	if (_is_pi) {
 		// create separate joins
 		std::thread handleUserInput_t(&CController::handleUserInput_thread, this);
