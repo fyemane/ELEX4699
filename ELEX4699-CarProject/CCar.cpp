@@ -67,12 +67,12 @@ void CCar::update() {
 
         if(cmd1 != "G"){
             // drive forward
-            if (cmd3 > 12000) {
+            if (cmd3 < -12000) {
                 _lmotor.set_speed(1550);
                 _rmotor.set_speed(500);
             }
             //drive backwards
-            else if(cmd3 < -12000) {
+            else if(cmd3 > 12000) {
                 _lmotor.set_speed(1405);
                 _rmotor.set_speed(2500);
             }
