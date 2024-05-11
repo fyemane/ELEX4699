@@ -78,12 +78,12 @@ void CCar::update() {
             }
             else if (_analogY > _analogX && _analogY > 1 - _analogX) {
             // forward
-                _lmotor.set_speed(1600);
+                _lmotor.set_speed(1545);
                 _rmotor.set_speed(500);
             }
             else if (_analogY < _analogX && _analogY < 1 - _analogX) {
                 // backward
-                _lmotor.set_speed(500);
+                _lmotor.set_speed(1405);
                 _rmotor.set_speed(2500);
             }
             else if (_analogY > _analogX && _analogY < 1 - _analogX) {
@@ -102,7 +102,7 @@ void CCar::update() {
             //     _rmotor.set_speed(1500);
             // }
 
-            if (cmd5 == 1) {
+            if (cmd5 == 0) {
                 shoot();
             }
             else {
@@ -142,7 +142,9 @@ void CCar::draw() {
 void CCar::drawImage(cv::Mat& canvas, cv::Point position, cv::Mat& image) {
     cv::Rect imageRegion(position.x, position.y, image.cols, image.rows);
     //cv::rectangle(canvas, cv::Rect(imageRegion.x - 1, imageRegion.y - 1, imageRegion.width + 2, imageRegion.height + 2), cv::Scalar(255, 255, 255), cv::FILLED);
-    image.copyTo(canvas(imageRegion));
+    if(!image.empty()){
+        image.copyTo(canvas(imageRegion));
+    }
 }
 
 
