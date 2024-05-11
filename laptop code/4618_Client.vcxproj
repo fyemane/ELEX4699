@@ -85,7 +85,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CControl.h" />
     <ClInclude Include="CController.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Serial.h" />
@@ -93,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="4618_Client.cpp" />
-    <ClCompile Include="CControl.cpp" />
     <ClCompile Include="CController.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Serial.cpp" />

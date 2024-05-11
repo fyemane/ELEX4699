@@ -8,7 +8,7 @@ CController::CController(int server) {
 	_pi_server_ip = "192.168.0.117";
 	//_pi_server_ip = "192.168.137.132";
 	_pi_server_port = 4012;
-	_arena_server_ip = "192.168.0.101";
+	_arena_server_ip = "192.168.0.100";
 	_arena_server_port = 5012; 
 
 	_cmd = -1;
@@ -23,7 +23,8 @@ CController::CController(int server) {
 
 	}
 
-	//_control.init_com(4);
+	ZeroMemory(&state, sizeof(XINPUT_STATE));
+	dwResult = 0;
 
 	_analogLX = 0;
 	_analogLY = 0;
@@ -135,7 +136,7 @@ void CController::handleUserInput() {
 
 		_buttonX = state.Gamepad.wButtons & _XINPUT_GAMEPAD_X;
 		_buttonY = state.Gamepad.wButtons & _XINPUT_GAMEPAD_Y;
-		_buttonB = state.Gamepad.wButtons & _XINPUT_GAMEPAD_B;
+		//_buttonB = state.Gamepad.wButtons & _XINPUT_GAMEPAD_B;
 
 		//std::cout << "LY: " << _analogLY << "   RX: " << _analogRX << "   X: " << _buttonX << "   Y: " << _buttonY << "   B: " << _buttonB << std::endl;
 	}
@@ -148,8 +149,8 @@ void CController::handleUserInput() {
 }
 
 void CController::sendPiCommands() {
-	// S 0 AnalogX AnalogY ButtonValue1 ButtonValue 2
-	send_command(_pi_client, "S 0 " + std::to_string(_analogLY) + " " + std::to_string(_analogRX) + " " + std::to_string(_buttonX) + " " + std::to_string(_buttonY) + " " + std::to_string(_buttonB), _pi_server_ip, _pi_server_port);
+	// S 0 AnalogLY AnalogRX ButtonX ButtonY
+	send_command(_pi_client, "S 0 " + std::to_string(_analogLY) + " " + std::to_string(_analogRX) + " " + std::to_string(_buttonX) + " " + std::to_string(_buttonY), _pi_server_ip, _pi_server_port);
 	send_command(_pi_client, "G 1", _pi_server_ip, _pi_server_port);
 }
 

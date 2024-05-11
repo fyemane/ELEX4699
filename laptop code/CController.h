@@ -12,11 +12,9 @@
 #include <sstream>
 #include <thread>
 #include <conio.h>
-//#include <windows.h>
 #include <Xinput.h>
 
 #include "Client.h"
-#include "CControl.h"
 
 class CController {
 private:
@@ -25,8 +23,6 @@ private:
    std::string _pi_server_ip, _arena_server_ip;
 
    float _timeout_start;
-
-   CControl _control;
 
    int _pi_server_port, _arena_server_port;
 

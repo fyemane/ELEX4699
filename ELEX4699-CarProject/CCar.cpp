@@ -63,7 +63,7 @@ void CCar::update() {
         std::istringstream iss(_commands_list.at(0));
 
         // parse string
-        iss >> cmd1 >> cmd2 >> cmd3 >> cmd4 >> cmd5 >> cmd6 >> cmd7;
+        iss >> cmd1 >> cmd2 >> cmd3 >> cmd4 >> cmd5 >> cmd6;
 
         if(cmd1 != "G"){
             // drive forward
@@ -93,19 +93,14 @@ void CCar::update() {
                 _rmotor.set_speed(1500);
             }
 
-            // rotate CCW
-            if (cmd5 > 0) {
-                _lmotor.set_speed(500);
-                _rmotor.set_speed(500);
-            }
             // rotate CW
-            if (cmd7 > 0) {
+            if (cmd6 > 0) {
                 _lmotor.set_speed(2500);
                 _rmotor.set_speed(2500);
             }
 
             // shoot
-            if (cmd6 == 1) {
+            if (cmd5 > 0) {
                 shoot();
             }
             else {

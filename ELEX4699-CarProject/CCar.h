@@ -31,7 +31,7 @@ private:
 
     double _analogX, _analogY;
     std::string cmd1;
-    double cmd2, cmd3, cmd4, cmd5, cmd6, cmd7;
+    double cmd2, cmd3, cmd4, cmd5, cmd6;
 
     cv::Size _canvasSize;
     cv::VideoCapture _vid;
