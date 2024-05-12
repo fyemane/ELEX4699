@@ -29,7 +29,7 @@ CCar::CCar() {
     cv::namedWindow("CarProject", cv::WINDOW_AUTOSIZE);
 
     // robot should not move when the object is created
-    _lmotor.set_speed(1480);
+    _lmotor.set_speed(1490);
     _rmotor.set_speed(1500);
 }
 
@@ -68,7 +68,7 @@ void CCar::update() {
         if(cmd1 != "G"){
             // drive forward
             if (cmd3 < -12000) {
-                _lmotor.set_speed(1550);
+                _lmotor.set_speed(1560);
                 _rmotor.set_speed(500);
             }
             //drive backwards
@@ -78,7 +78,7 @@ void CCar::update() {
             }
             // stop driving
             else {
-                _lmotor.set_speed(1480);
+                _lmotor.set_speed(1490);
                 _rmotor.set_speed(1500);
             }
 
@@ -115,7 +115,7 @@ void CCar::shoot() {
 }
 
 void CCar::shoot_stop() {
-    gpioServo(GUN_OUTPUT_PIN, 1500);
+    gpioServo(GUN_OUTPUT_PIN, 1510);
 }
 
 void CCar::get_commands() {
