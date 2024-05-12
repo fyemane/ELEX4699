@@ -21,7 +21,6 @@ CController::CController(int server) {
 	}
 	else {
 		_arena_client.connect_socket(_arena_server_ip, _arena_server_port);
-
 	}
 
 	ZeroMemory(&state, sizeof(XINPUT_STATE));

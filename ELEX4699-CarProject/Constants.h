@@ -9,4 +9,7 @@
 #define RMOTOR_OUTPUT_PIN 23
 #define GUN_OUTPUT_PIN 24
 
+#define TRIGGER_PIN 21
+#define ECHO_PIN 20
+
 #endif // CONSTANTS_H
