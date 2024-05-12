@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <chrono>
 #include <thread>
+#include <opencv2/aruco.hpp>
 #include <opencv2/opencv.hpp>
 #include <sstream>
 #include <chrono>
@@ -51,15 +52,29 @@ private:
     cv::Mat _vidFrame;
     cv::Mat _processedFrame;
     cv::Mat _persistentCanvas; ///< Mat to store persistent drawing.
-    cv::Point gui_position; ///< Position for graphical user interface.
+    cv::Point _gui_position; ///< Position for graphical user interface.
+    int _gui_vertspace;
+
+    std::vector<std::string> _commands_list;
+    cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
+    std::vector<int> ids;
+    std::vector<std::vector<cv::Point2f>> corners;
 
 
+    bool _autonomous;
     bool _thread_exit;
     bool _resetFlag, _exitFlag; ///< Flags for resetting and exiting the application.
 
+    int _pwm_lmotor_forward, _pwm_rmotor_forward;
+    int _pwm_lmotor_backward, _pwm_rmotor_backward;
+    int _pwm_lmotor_left, _pwm_rmotor_left;
+    int _pwm_lmotor_right, _pwm_rmotor_right;
+    int _pwm_lmotor_stop, _pwm_rmotor_stop;
+    int _pwm_lmotor_CW , _pwm_rmotor_CW;
+
 
 public:
-    CCar();
+    CCar(int mode);
     ~CCar();
 
     void update();
