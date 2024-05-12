@@ -31,8 +31,6 @@ private:
     int _arena_server_port;
     int _shoot_speed;
 
-    std::vector<std::string> _commands_list;
-
     std::chrono::steady_clock::time_point pulse_start_time;
     std::chrono::steady_clock::time_point pulse_end_time;
     std::chrono::milliseconds pulse_duration;

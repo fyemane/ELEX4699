@@ -11,18 +11,29 @@ CCar::CCar(int mode) {
     _shoot_speed = 500;
     _autonomous = mode;
 
-    
-    _pwm_lmotor_forward = 1560, _pwm_rmotor_forward = 500;
-    _pwm_lmotor_backward = 1405, _pwm_rmotor_backward = 2500;
-    _pwm_lmotor_left = 1490, _pwm_rmotor_left = 1500;
-    _pwm_lmotor_right = 1480, _pwm_rmotor_right = 500;
-    _pwm_lmotor_stop = 2500, _pwm_rmotor_stop = 1500;
-    _pwm_lmotor_CW = 2500, _pwm_rmotor_CW = 1500;
 
-    
+    _pwm_lmotor_forward = 1560;
+    _pwm_rmotor_forward = 500;
+
+    _pwm_lmotor_backward = 1405;
+    _pwm_rmotor_backward = 2500;
+
+    _pwm_lmotor_left = 1490;
+    _pwm_rmotor_left = 500;
+
+    _pwm_lmotor_right = 2500;
+    _pwm_rmotor_right = 1500;
+
+    _pwm_lmotor_stop = 1490;
+    _pwm_rmotor_stop = 1500;
+
+    _pwm_lmotor_CW = 2500;
+    _pwm_rmotor_CW = 2500;
+
+
 
     // for drawing
-    _canvasSize = cv::Size(700, 700);
+    _canvasSize = cv::Size(1200, 700);
     _canvas = cv::Mat::zeros(_canvasSize, CV_8UC3);
     _persistentCanvas = cv::Mat::zeros(_canvasSize, CV_8UC3);  // Initialize persistent canvas
     cvui::init("CarProject");              // Initialize cvui here
@@ -88,7 +99,7 @@ void CCar::update() {
                 // only drive if no obstruction in front of ultrasonic sensor
                 if (std::abs(distance) != 0 && std::abs(distance) <= 15) {
                     _lmotor.set_speed(_pwm_lmotor_forward);
-                    _rmotor.set_speed(_pwm_lmotor_forward);
+                    _rmotor.set_speed(_pwm_rmotor_forward);
                 }
                 // stop motor throttle with distance sensing
                 if (std::abs(distance) == 0 ) {
@@ -110,7 +121,7 @@ void CCar::update() {
             // turn left
             if (cmd4 < -12000) {
                 _lmotor.set_speed(_pwm_lmotor_left);
-                _rmotor.set_speed(_pwm_lmotor_left);
+                _rmotor.set_speed(_pwm_rmotor_left);
             }
             //turn right
             else if (cmd4 > 12000) {
@@ -247,7 +258,7 @@ void CCar::sense_distance(){
             break;
         }
     }
-    
+
     pulse_duration = std::chrono::duration_cast<std::chrono::milliseconds>(pulse_end_time - pulse_start_time);
     distance = pulse_duration.count();
     if(distance > 10) {

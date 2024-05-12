@@ -5,12 +5,12 @@
 	"pigpio.h"
 	"CControlPi.h"
 
-1710207665 i.h"
+1715539910 i.h"
 
 1708843760 /home/faniel/Documents/ELEX 4618/ELEX4618-Template/CControlPi.h
 	<string>
 
-1713995997 
+1715481274 
 
 1709326316 source:/home/faniel/Documents/ELEX 4618/ELEX4618-Template/main.cpp
 	"cvui.h"
@@ -40,9 +40,24 @@
 	<opencv2/highgui/highgui.hpp>
 	<opencv2/core/core.hpp>
 
-1709331386 ore/core.hpp>
+1715481274 ore/core.hpp>
 
 1608580898 /usr/include/opencv4/opencv2/opencv.hpp
+	"opencv2/opencv_modules.hpp"
+	"opencv2/core.hpp"
+	"opencv2/calib3d.hpp"
+	"opencv2/features2d.hpp"
+	"opencv2/dnn.hpp"
+	"opencv2/flann.hpp"
+	"opencv2/highgui.hpp"
+	"opencv2/imgcodecs.hpp"
+	"opencv2/imgproc.hpp"
+	"opencv2/ml.hpp"
+	"opencv2/objdetect.hpp"
+	"opencv2/photo.hpp"
+	"opencv2/stitching.hpp"
+	"opencv2/video.hpp"
+	"opencv2/videoio.hpp"
 	"opencv2/opencv_modules.hpp"
 	"opencv2/core.hpp"
 	"opencv2/calib3d.hpp"
@@ -78,10 +93,35 @@
 	"opencv2/core/utility.hpp"
 	"opencv2/core/optim.hpp"
 	"opencv2/core/ovx.hpp"
+	"opencv2/core/cvdef.h"
+	"opencv2/core/version.hpp"
+	"opencv2/core/base.hpp"
+	"opencv2/core/cvstd.hpp"
+	"opencv2/core/traits.hpp"
+	"opencv2/core/matx.hpp"
+	"opencv2/core/types.hpp"
+	"opencv2/core/mat.hpp"
+	"opencv2/core/persistence.hpp"
+	"opencv2/core/operations.hpp"
+	"opencv2/core/cvstd.inl.hpp"
+	"opencv2/core/utility.hpp"
+	"opencv2/core/optim.hpp"
+	"opencv2/core/ovx.hpp"
 
 1608580898 ore/ovx.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/core/cvdef.h
+	"cvconfig.h"
+	<limits>
+	<limits.h>
+	"opencv2/core/hal/interface.h"
+	"cv_cpu_dispatch.h"
+	<intrin.h>
+	<array>
+	<cstdint>
+	<stdint.h>
+	<stdint.h>
+	"opencv2/core/fast_math.hpp"
 	"cvconfig.h"
 	<limits>
 	<limits.h>
@@ -104,8 +144,41 @@
 	<stdbool.h>
 	<cstdint>
 	<stdint.h>
+	<cstddef>
+	<stddef.h>
+	<stdbool.h>
+	<cstdint>
+	<stdint.h>
 
 1608580898 /usr/include/opencv4/opencv2/core/cv_cpu_dispatch.h
+	"cv_cpu_config.h"
+	"cv_cpu_helper.h"
+	<emmintrin.h>
+	<pmmintrin.h>
+	<tmmintrin.h>
+	<smmintrin.h>
+	<nmmintrin.h>
+	<nmmintrin.h>
+	<popcntintrin.h>
+	<immintrin.h>
+	<arm_neon.h>
+	<immintrin.h>
+	<immintrin.h>
+	<immintrin.h>
+	<Intrin.h>
+	<arm_neon.h>
+	<arm_neon.h>
+	<arm_neon.h>
+	<altivec.h>
+	"hal/msa_macros.h"
+	<wasm_simd128.h>
+	<riscv_vector.h>
+	<emmintrin.h>
+	<Intrin.h>
+	<arm_neon.h>
+	<arm_neon.h>
+	<altivec.h>
+	<immintrin.h>
 	"cv_cpu_config.h"
 	"cv_cpu_helper.h"
 	<emmintrin.h>
@@ -142,8 +215,16 @@
 1608580898 /usr/include/opencv4/opencv2/core/hal/msa_macros.h
 	"msa.h"
 	<stdint.h>
+	"msa.h"
+	<stdint.h>
 
 1608580898 /usr/include/opencv4/opencv2/core/fast_math.hpp
+	"opencv2/core/cvdef.h"
+	<cmath>
+	<fastmath.h>
+	<math.h>
+	<emmintrin.h>
+	<altivec.h>
 	"opencv2/core/cvdef.h"
 	<cmath>
 	<fastmath.h>
@@ -154,6 +235,14 @@
 1608580898 >
 
 1608580898 /usr/include/opencv4/opencv2/core/base.hpp
+	"opencv2/opencv_modules.hpp"
+	<climits>
+	<algorithm>
+	"opencv2/core/cvdef.h"
+	"opencv2/core/cvstd.hpp"
+	"opencv2/core/neon_utils.hpp"
+	"opencv2/core/vsx_utils.hpp"
+	"opencv2/core/check.hpp"
 	"opencv2/opencv_modules.hpp"
 	<climits>
 	<algorithm>
@@ -176,10 +265,24 @@
 	<cstdlib>
 	<cmath>
 	"cvstd_wrapper.hpp"
+	"opencv2/core/cvdef.h"
+	<cstddef>
+	<cstring>
+	<cctype>
+	<string>
+	<algorithm>
+	<utility>
+	<cstdlib>
+	<cmath>
+	"cvstd_wrapper.hpp"
 
 1608580898 pper.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/core/cvstd_wrapper.hpp
+	"opencv2/core/cvdef.h"
+	<string>
+	<memory>
+	<type_traits>
 	"opencv2/core/cvdef.h"
 	<string>
 	<memory>
@@ -189,22 +292,32 @@
 
 1608580898 /usr/include/opencv4/opencv2/core/neon_utils.hpp
 	"opencv2/core/cvdef.h"
+	"opencv2/core/cvdef.h"
 
 1608580898 ore/cvdef.h"
 
 1608580898 /usr/include/opencv4/opencv2/core/vsx_utils.hpp
 	"opencv2/core/cvdef.h"
 	<assert.h>
+	"opencv2/core/cvdef.h"
+	<assert.h>
 
 1608580898 /usr/include/opencv4/opencv2/core/check.hpp
+	<opencv2/core/base.hpp>
 	<opencv2/core/base.hpp>
 
 1608580898 ore/base.hpp>
 
 1608580898 /usr/include/opencv4/opencv2/core/traits.hpp
 	"opencv2/core/cvdef.h"
+	"opencv2/core/cvdef.h"
 
 1608580898 /usr/include/opencv4/opencv2/core/matx.hpp
+	"opencv2/core/cvdef.h"
+	"opencv2/core/base.hpp"
+	"opencv2/core/traits.hpp"
+	"opencv2/core/saturate.hpp"
+	<initializer_list>
 	"opencv2/core/cvdef.h"
 	"opencv2/core/base.hpp"
 	"opencv2/core/traits.hpp"
@@ -216,8 +329,17 @@
 1608580898 /usr/include/opencv4/opencv2/core/saturate.hpp
 	"opencv2/core/cvdef.h"
 	"opencv2/core/fast_math.hpp"
+	"opencv2/core/cvdef.h"
+	"opencv2/core/fast_math.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/core/types.hpp
+	<climits>
+	<cfloat>
+	<vector>
+	<limits>
+	"opencv2/core/cvdef.h"
+	"opencv2/core/cvstd.hpp"
+	"opencv2/core/matx.hpp"
 	<climits>
 	<cfloat>
 	<vector>
@@ -229,6 +351,11 @@
 1608580898 ore/matx.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/core/mat.hpp
+	"opencv2/core/matx.hpp"
+	"opencv2/core/types.hpp"
+	"opencv2/core/bufferpool.hpp"
+	<type_traits>
+	"opencv2/core/mat.inl.hpp"
 	"opencv2/core/matx.hpp"
 	"opencv2/core/types.hpp"
 	"opencv2/core/bufferpool.hpp"
@@ -246,16 +373,29 @@
 	"opencv2/core/mat.hpp"
 	"opencv2/core.hpp"
 	<time.h>
+	"opencv2/core/types.hpp"
+	"opencv2/core/mat.hpp"
+	"opencv2/core.hpp"
+	<time.h>
 
 1608580898 /usr/include/opencv4/opencv2/core/operations.hpp
+	<cstdio>
 	<cstdio>
 
 1608580898 /usr/include/opencv4/opencv2/core/cvstd.inl.hpp
 	<complex>
 	<ostream>
 	<sstream>
+	<complex>
+	<ostream>
+	<sstream>
 
 1608580898 /usr/include/opencv4/opencv2/core/utility.hpp
+	"opencv2/core.hpp"
+	<ostream>
+	<functional>
+	<mutex>
+	"opencv2/core/utils/instrumentation.hpp"
 	"opencv2/core.hpp"
 	<ostream>
 	<functional>
@@ -267,23 +407,31 @@
 1608580898 /usr/include/opencv4/opencv2/core/utils/instrumentation.hpp
 	<opencv2/core/utility.hpp>
 	<opencv2/core/utils/tls.hpp>
+	<opencv2/core/utility.hpp>
+	<opencv2/core/utils/tls.hpp>
 
 1608580898 ore/utils/tls.hpp>
 
 1608580898 /usr/include/opencv4/opencv2/core/utils/tls.hpp
+	<opencv2/core/utility.hpp>
 	<opencv2/core/utility.hpp>
 
 1608580898 ore/utility.hpp>
 
 1608580898 /usr/include/opencv4/opencv2/core/optim.hpp
 	"opencv2/core.hpp"
+	"opencv2/core.hpp"
 
 1608580898 ore.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/core/ovx.hpp
 	"cvdef.h"
+	"cvdef.h"
 
 1608580898 /usr/include/opencv4/opencv2/calib3d.hpp
+	"opencv2/core.hpp"
+	"opencv2/features2d.hpp"
+	"opencv2/core/affine.hpp"
 	"opencv2/core.hpp"
 	"opencv2/features2d.hpp"
 	"opencv2/core/affine.hpp"
@@ -294,10 +442,15 @@
 	"opencv2/opencv_modules.hpp"
 	"opencv2/core.hpp"
 	"opencv2/flann/miniflann.hpp"
+	"opencv2/opencv_modules.hpp"
+	"opencv2/core.hpp"
+	"opencv2/flann/miniflann.hpp"
 
 1608580898 lann/miniflann.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/flann/miniflann.hpp
+	"opencv2/core.hpp"
+	"opencv2/flann/defines.h"
 	"opencv2/core.hpp"
 	"opencv2/flann/defines.h"
 
@@ -305,20 +458,31 @@
 
 1608580898 /usr/include/opencv4/opencv2/flann/defines.h
 	"config.h"
+	"config.h"
 
 1608580898 /usr/include/opencv4/opencv2/flann/config.h
 
 1608580898 /usr/include/opencv4/opencv2/core/affine.hpp
 	<opencv2/core.hpp>
+	<opencv2/core.hpp>
 
-1654443164 ore.hpp>
+1608580898 ore.hpp>
 
 1608580898 /usr/include/opencv4/opencv2/dnn.hpp
+	<opencv2/dnn/dnn.hpp>
 	<opencv2/dnn/dnn.hpp>
 
 1608580898 nn/dnn.hpp>
 
 1608580898 /usr/include/opencv4/opencv2/dnn/dnn.hpp
+	<vector>
+	<opencv2/core.hpp>
+	"opencv2/core/async.hpp"
+	"../dnn/version.hpp"
+	<opencv2/dnn/dict.hpp>
+	<opencv2/dnn/layer.hpp>
+	<opencv2/dnn/dnn.inl.hpp>
+	<opencv2/dnn/utils/inference_engine.hpp>
 	<vector>
 	<opencv2/core.hpp>
 	"opencv2/core/async.hpp"
@@ -333,6 +497,8 @@
 1608580898 /usr/include/opencv4/opencv2/core/async.hpp
 	<opencv2/core/mat.hpp>
 	<chrono>
+	<opencv2/core/mat.hpp>
+	<chrono>
 
 1608580898 /usr/include/opencv4/opencv2/dnn/version.hpp
 
@@ -341,21 +507,31 @@
 	<map>
 	<ostream>
 	<opencv2/dnn/dnn.hpp>
+	<opencv2/core.hpp>
+	<map>
+	<ostream>
+	<opencv2/dnn/dnn.hpp>
 
 1608580898 /usr/include/opencv4/opencv2/dnn/layer.hpp
+	<opencv2/dnn.hpp>
 	<opencv2/dnn.hpp>
 
 1608580898 nn.hpp>
 
 1608580898 /usr/include/opencv4/opencv2/dnn/dnn.inl.hpp
 	<opencv2/dnn.hpp>
+	<opencv2/dnn.hpp>
 
 1608580898 /usr/include/opencv4/opencv2/dnn/utils/inference_engine.hpp
+	"../dnn.hpp"
 	"../dnn.hpp"
 
 1608580898 p"
 
 1608580898 /usr/include/opencv4/opencv2/flann.hpp
+	"opencv2/core.hpp"
+	"opencv2/flann/miniflann.hpp"
+	"opencv2/flann/flann_base.hpp"
 	"opencv2/core.hpp"
 	"opencv2/flann/miniflann.hpp"
 	"opencv2/flann/flann_base.hpp"
@@ -370,16 +546,29 @@
 	"params.h"
 	"saving.h"
 	"all_indices.h"
+	<vector>
+	<cstdio>
+	"general.h"
+	"matrix.h"
+	"params.h"
+	"saving.h"
+	"all_indices.h"
 
 1608580898 es.h"
 
 1608580898 /usr/include/opencv4/opencv2/flann/general.h
 	"opencv2/core.hpp"
+	"opencv2/core.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/flann/matrix.h
 	<stdio.h>
+	<stdio.h>
 
 1608580898 /usr/include/opencv4/opencv2/flann/params.h
+	"any.h"
+	"general.h"
+	<iostream>
+	<map>
 	"any.h"
 	"general.h"
 	<iostream>
@@ -390,8 +579,16 @@
 	<stdexcept>
 	<ostream>
 	<typeinfo>
+	"defines.h"
+	<stdexcept>
+	<ostream>
+	<typeinfo>
 
 1608580898 /usr/include/opencv4/opencv2/flann/saving.h
+	<cstring>
+	<vector>
+	"general.h"
+	"nn_index.h"
 	<cstring>
 	<vector>
 	"general.h"
@@ -403,6 +600,9 @@
 	"matrix.h"
 	"result_set.h"
 	"params.h"
+	"matrix.h"
+	"result_set.h"
+	"params.h"
 
 1608580898 /usr/include/opencv4/opencv2/flann/result_set.h
 	<algorithm>
@@ -411,8 +611,24 @@
 	<limits>
 	<set>
 	<vector>
+	<algorithm>
+	<cstring>
+	<iostream>
+	<limits>
+	<set>
+	<vector>
 
 1608580898 /usr/include/opencv4/opencv2/flann/all_indices.h
+	"general.h"
+	"nn_index.h"
+	"kdtree_index.h"
+	"kdtree_single_index.h"
+	"kmeans_index.h"
+	"composite_index.h"
+	"linear_index.h"
+	"hierarchical_clustering_index.h"
+	"lsh_index.h"
+	"autotuned_index.h"
 	"general.h"
 	"nn_index.h"
 	"kdtree_index.h"
@@ -438,8 +654,22 @@
 	"allocator.h"
 	"random.h"
 	"saving.h"
+	<algorithm>
+	<map>
+	<cstring>
+	"nn_index.h"
+	"dynamic_bitset.h"
+	"matrix.h"
+	"result_set.h"
+	"heap.h"
+	"allocator.h"
+	"random.h"
+	"saving.h"
 
 1608580898 /usr/include/opencv4/opencv2/flann/dynamic_bitset.h
+	<boost/dynamic_bitset.hpp>
+	<limits.h>
+	"dist.h"
 	<boost/dynamic_bitset.hpp>
 	<limits.h>
 	"dist.h"
@@ -452,12 +682,23 @@
 	"defines.h"
 	<Intrin.h>
 	"arm_neon.h"
+	<cmath>
+	<cstdlib>
+	<string.h>
+	<stdint.h>
+	"defines.h"
+	<Intrin.h>
+	"arm_neon.h"
 
 1608580898 /usr/include/opencv4/opencv2/flann/heap.h
 	<algorithm>
 	<vector>
+	<algorithm>
+	<vector>
 
 1608580898 /usr/include/opencv4/opencv2/flann/allocator.h
+	<stdlib.h>
+	<stdio.h>
 	<stdlib.h>
 	<stdio.h>
 
@@ -465,8 +706,21 @@
 	<algorithm>
 	<cstdlib>
 	<vector>
+	<algorithm>
+	<cstdlib>
+	<vector>
 
 1608580898 /usr/include/opencv4/opencv2/flann/kdtree_single_index.h
+	<algorithm>
+	<map>
+	<cstring>
+	"nn_index.h"
+	"matrix.h"
+	"result_set.h"
+	"heap.h"
+	"allocator.h"
+	"random.h"
+	"saving.h"
 	<algorithm>
 	<map>
 	<cstring>
@@ -493,15 +747,35 @@
 	"random.h"
 	"saving.h"
 	"logger.h"
+	<algorithm>
+	<map>
+	<limits>
+	<cmath>
+	"general.h"
+	"nn_index.h"
+	"dist.h"
+	"matrix.h"
+	"result_set.h"
+	"heap.h"
+	"allocator.h"
+	"random.h"
+	"saving.h"
+	"logger.h"
 
 1608580898 /usr/include/opencv4/opencv2/flann/logger.h
 	<stdio.h>
 	<stdarg.h>
 	"defines.h"
+	<stdio.h>
+	<stdarg.h>
+	"defines.h"
 
-1709331386 "
+1608580898 "
 
 1608580898 /usr/include/opencv4/opencv2/flann/composite_index.h
+	"nn_index.h"
+	"kdtree_index.h"
+	"kmeans_index.h"
 	"nn_index.h"
 	"kdtree_index.h"
 	"kmeans_index.h"
@@ -510,8 +784,22 @@
 
 1608580898 /usr/include/opencv4/opencv2/flann/linear_index.h
 	"nn_index.h"
+	"nn_index.h"
 
 1608580898 /usr/include/opencv4/opencv2/flann/hierarchical_clustering_index.h
+	<algorithm>
+	<map>
+	<limits>
+	<cmath>
+	"general.h"
+	"nn_index.h"
+	"dist.h"
+	"matrix.h"
+	"result_set.h"
+	"heap.h"
+	"allocator.h"
+	"random.h"
+	"saving.h"
 	<algorithm>
 	<map>
 	<limits>
@@ -539,8 +827,30 @@
 	"allocator.h"
 	"random.h"
 	"saving.h"
+	<algorithm>
+	<cstring>
+	<map>
+	<vector>
+	"nn_index.h"
+	"matrix.h"
+	"result_set.h"
+	"heap.h"
+	"lsh_table.h"
+	"allocator.h"
+	"random.h"
+	"saving.h"
 
 1608580898 /usr/include/opencv4/opencv2/flann/lsh_table.h
+	<algorithm>
+	<iostream>
+	<iomanip>
+	<limits.h>
+	<unordered_map>
+	<map>
+	<math.h>
+	<stddef.h>
+	"dynamic_bitset.h"
+	"matrix.h"
 	<algorithm>
 	<iostream>
 	<iomanip>
@@ -564,12 +874,32 @@
 	"composite_index.h"
 	"linear_index.h"
 	"logger.h"
+	<sstream>
+	"nn_index.h"
+	"ground_truth.h"
+	"index_testing.h"
+	"sampling.h"
+	"kdtree_index.h"
+	"kdtree_single_index.h"
+	"kmeans_index.h"
+	"composite_index.h"
+	"linear_index.h"
+	"logger.h"
 
 1608580898 /usr/include/opencv4/opencv2/flann/ground_truth.h
 	"dist.h"
 	"matrix.h"
+	"dist.h"
+	"matrix.h"
 
 1608580898 /usr/include/opencv4/opencv2/flann/index_testing.h
+	<cstring>
+	<cmath>
+	"matrix.h"
+	"nn_index.h"
+	"result_set.h"
+	"logger.h"
+	"timer.h"
 	<cstring>
 	<cmath>
 	"matrix.h"
@@ -582,10 +912,15 @@
 	<time.h>
 	"opencv2/core.hpp"
 	"opencv2/core/utility.hpp"
+	<time.h>
+	"opencv2/core.hpp"
+	"opencv2/core/utility.hpp"
 
 1608580898 ore/utility.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/flann/sampling.h
+	"matrix.h"
+	"random.h"
 	"matrix.h"
 	"random.h"
 
@@ -593,14 +928,20 @@
 	"opencv2/core.hpp"
 	"opencv2/imgcodecs.hpp"
 	"opencv2/videoio.hpp"
+	"opencv2/core.hpp"
+	"opencv2/imgcodecs.hpp"
+	"opencv2/videoio.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/imgcodecs.hpp
+	"opencv2/core.hpp"
 	"opencv2/core.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/videoio.hpp
 	"opencv2/core.hpp"
+	"opencv2/core.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/imgproc.hpp
+	"opencv2/core.hpp"
 	"opencv2/core.hpp"
 
 1654443164 /usr/include/opencv4/opencv2/imgproc/segmentation.hpp
@@ -614,6 +955,11 @@
 	<map>
 	<iostream>
 	<opencv2/ml/ml.inl.hpp>
+	"opencv2/core.hpp"
+	<float.h>
+	<map>
+	<iostream>
+	<opencv2/ml/ml.inl.hpp>
 
 1608580898 l/ml.inl.hpp>
 
@@ -622,10 +968,14 @@
 1608580898 /usr/include/opencv4/opencv2/objdetect.hpp
 	"opencv2/core.hpp"
 	"opencv2/objdetect/detection_based_tracker.hpp"
+	"opencv2/core.hpp"
+	"opencv2/objdetect/detection_based_tracker.hpp"
 
 1608580898 bjdetect/detection_based_tracker.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/objdetect/detection_based_tracker.hpp
+	<opencv2/core.hpp>
+	<vector>
 	<opencv2/core.hpp>
 	<vector>
 
@@ -635,8 +985,19 @@
 1608580898 /usr/include/opencv4/opencv2/photo.hpp
 	"opencv2/core.hpp"
 	"opencv2/imgproc.hpp"
+	"opencv2/core.hpp"
+	"opencv2/imgproc.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/stitching.hpp
+	"opencv2/core.hpp"
+	"opencv2/features2d.hpp"
+	"opencv2/stitching/warpers.hpp"
+	"opencv2/stitching/detail/matchers.hpp"
+	"opencv2/stitching/detail/motion_estimators.hpp"
+	"opencv2/stitching/detail/exposure_compensate.hpp"
+	"opencv2/stitching/detail/seam_finders.hpp"
+	"opencv2/stitching/detail/blenders.hpp"
+	"opencv2/stitching/detail/camera.hpp"
 	"opencv2/core.hpp"
 	"opencv2/features2d.hpp"
 	"opencv2/stitching/warpers.hpp"
@@ -652,8 +1013,15 @@
 1608580898 /usr/include/opencv4/opencv2/stitching/warpers.hpp
 	"opencv2/stitching/detail/warpers.hpp"
 	<string>
+	"opencv2/stitching/detail/warpers.hpp"
+	<string>
 
 1608580898 /usr/include/opencv4/opencv2/stitching/detail/warpers.hpp
+	"opencv2/core.hpp"
+	"opencv2/core/cuda.hpp"
+	"opencv2/imgproc.hpp"
+	"opencv2/opencv_modules.hpp"
+	"warpers_inl.hpp"
 	"opencv2/core.hpp"
 	"opencv2/core/cuda.hpp"
 	"opencv2/imgproc.hpp"
@@ -667,12 +1035,17 @@
 	"opencv2/core/cuda_types.hpp"
 	<opencv2/opencv.hpp>
 	"opencv2/core/cuda.inl.hpp"
+	"opencv2/core.hpp"
+	"opencv2/core/cuda_types.hpp"
+	<opencv2/opencv.hpp>
+	"opencv2/core/cuda.inl.hpp"
 
 1608580898 ore/cuda.inl.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/core/cuda_types.hpp
 
 1608580898 /usr/include/opencv4/opencv2/core/cuda.inl.hpp
+	"opencv2/core/cuda.hpp"
 	"opencv2/core/cuda.hpp"
 
 1608580898 ore/cuda.hpp"
@@ -681,8 +1054,14 @@
 	"opencv2/core.hpp"
 	"warpers.hpp"
 	<limits>
+	"opencv2/core.hpp"
+	"warpers.hpp"
+	<limits>
 
 1608580898 /usr/include/opencv4/opencv2/stitching/detail/matchers.hpp
+	"opencv2/core.hpp"
+	"opencv2/features2d.hpp"
+	"opencv2/opencv_modules.hpp"
 	"opencv2/core.hpp"
 	"opencv2/features2d.hpp"
 	"opencv2/opencv_modules.hpp"
@@ -694,8 +1073,15 @@
 	"matchers.hpp"
 	"util.hpp"
 	"camera.hpp"
+	"opencv2/core.hpp"
+	"matchers.hpp"
+	"util.hpp"
+	"camera.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/stitching/detail/util.hpp
+	<list>
+	"opencv2/core.hpp"
+	"util_inl.hpp"
 	<list>
 	"opencv2/core.hpp"
 	"util_inl.hpp"
@@ -706,14 +1092,22 @@
 	<queue>
 	"opencv2/core.hpp"
 	"util.hpp"
+	<queue>
+	"opencv2/core.hpp"
+	"util.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/stitching/detail/camera.hpp
+	"opencv2/core.hpp"
 	"opencv2/core.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/stitching/detail/exposure_compensate.hpp
 	"opencv2/core.hpp"
+	"opencv2/core.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/stitching/detail/seam_finders.hpp
+	<set>
+	"opencv2/core.hpp"
+	"opencv2/opencv_modules.hpp"
 	<set>
 	"opencv2/core.hpp"
 	"opencv2/opencv_modules.hpp"
@@ -721,8 +1115,12 @@
 1608580898 /usr/include/opencv4/opencv2/stitching/detail/blenders.hpp
 	"opencv2/core.hpp"
 	"opencv2/core/cuda.hpp"
+	"opencv2/core.hpp"
+	"opencv2/core/cuda.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/video.hpp
+	"opencv2/video/tracking.hpp"
+	"opencv2/video/background_segm.hpp"
 	"opencv2/video/tracking.hpp"
 	"opencv2/video/background_segm.hpp"
 
@@ -731,19 +1129,25 @@
 1608580898 /usr/include/opencv4/opencv2/video/tracking.hpp
 	"opencv2/core.hpp"
 	"opencv2/imgproc.hpp"
+	"opencv2/core.hpp"
+	"opencv2/imgproc.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/video/background_segm.hpp
+	"opencv2/core.hpp"
 	"opencv2/core.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/imgproc/imgproc.hpp
 	"opencv2/imgproc.hpp"
+	"opencv2/imgproc.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/highgui/highgui.hpp
+	"opencv2/highgui.hpp"
 	"opencv2/highgui.hpp"
 
 1608580898 ighgui.hpp"
 
 1608580898 /usr/include/opencv4/opencv2/core/core.hpp
+	"opencv2/core.hpp"
 	"opencv2/core.hpp"
 
 1709306562 source:/home/faniel/Documents/ELEX 4618/ELEX4618-Template/CPong.cpp
@@ -878,7 +1282,7 @@
 	<opencv2/opencv.hpp>
 	<X11/Xlib.h>
 
-1712202540 h>
+1715481274 h>
 
 1712354909 source:/home/faniel/Documents/ELEX4618-Template/server.cpp
 	"server.h"
@@ -1024,7 +1428,7 @@
 	"Constants.h"
 	"CCommunication.h"
 
-1714526225 ation.h"
+1715481274 ation.h"
 
 1714000441 /home/faniel/Documents/ELEX4699-CarProject/CCommunication.h
 	"Client.h"
@@ -1055,6 +1459,124 @@
 	<chrono>
 
 1715481274 /home/raghav/Labs/NewC/ELEX4699-CarProject/Client.h
+	<string>
+	<opencv2/opencv.hpp>
+	<sys/types.h>
+	<stdlib.h>
+	<unistd.h>
+	<sys/socket.h>
+	<sys/ioctl.h>
+	<fcntl.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<netdb.h>
+	<thread>
+
+1715481274 /home/raghav/Labs/NewC/ELEX4699-CarProject/server.h
+	<iostream>
+	<string>
+	<mutex>
+	<vector>
+	<opencv2/opencv.hpp>
+	<opencv2/opencv.hpp>
+	<X11/Xlib.h>
+
+1715481274 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/CControlPi.cpp
+	<iostream>
+	<unistd.h>
+	"pigpio.h"
+	"CControlPi.h"
+
+1715481274 /home/raghav/Labs/NewC/ELEX4699-CarProject/CControlPi.h
+	<string>
+
+1715481274 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/Client.cpp
+	<iostream>
+	"Client.h"
+
+1715481274 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/CMotor.cpp
+	"CMotor.h"
+
+1715481274 /home/raghav/Labs/NewC/ELEX4699-CarProject/CMotor.h
+	<algorithm>
+	<iostream>
+	<thread>
+	<chrono>
+	"pigpio.h"
+	"Constants.h"
+	"CControlPi.h"
+
+1715481274 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/server.cpp
+	"server.h"
+	<sys/types.h>
+	<stdlib.h>
+	<unistd.h>
+	<sys/socket.h>
+	<sys/ioctl.h>
+	<fcntl.h>
+	<netinet/in.h>
+	<netdb.h>
+	<thread>
+
+1715481274 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/main.cpp
+	"cvui.h"
+	<opencv2/opencv.hpp>
+	<string>
+	<iostream>
+	<fstream>
+	<sstream>
+	<thread>
+	<unistd.h>
+	"CControlPi.h"
+	"CCar.h"
+
+1715481274 /home/raghav/Labs/NewC/ELEX4699-CarProject/cvui.h
+	"cvui.h"
+	<opencv2/opencv.hpp>
+	"cvui.h"
+	<iostream>
+	<vector>
+	<map>
+	<stdarg.h>
+	<opencv2/imgproc/imgproc.hpp>
+	<opencv2/highgui/highgui.hpp>
+	<opencv2/core/core.hpp>
+
+1715539910 /home/raghav/Labs/NewC/ELEX4699-CarProject/CCar.h
+	<algorithm>
+	<chrono>
+	<thread>
+	<opencv2/opencv.hpp>
+	<sstream>
+	<chrono>
+	"server.h"
+	"Client.h"
+	"Constants.h"
+	"CMotor.h"
+	"CControlPi.h"
+
+1715488593 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/CCar.cpp
+	"CCar.h"
+	"cvui.h"
+
+1715481274 source:/home/raghav/Labs/ELEX4699-CarProject/CCommunication.cpp
+	<algorithm>
+	<chrono>
+	<thread>
+	"Constants.h"
+	"CCommunication.h"
+
+1715542709 /home/raghav/Labs/ELEX4699-CarProject/Constants.h
+	<cmath>
+
+1715481274 /home/raghav/Labs/ELEX4699-CarProject/CCommunication.h
+	"Client.h"
+	"server.h"
+	<thread>
+	<iostream>
+	<chrono>
+
+1715481274 /home/raghav/Labs/ELEX4699-CarProject/Client.h
 	<string>
 	<opencv2/opencv.hpp>
 	<sys/types.h>
@@ -1671,7 +2193,7 @@
 1608580898 /usr/include/opencv4/opencv2/video/background_segm.hpp
 	"opencv2/core.hpp"
 
-1715481274 /home/raghav/Labs/NewC/ELEX4699-CarProject/server.h
+1715481274 /home/raghav/Labs/ELEX4699-CarProject/server.h
 	<iostream>
 	<string>
 	<mutex>
@@ -1680,23 +2202,23 @@
 	<opencv2/opencv.hpp>
 	<X11/Xlib.h>
 
-1715481274 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/CControlPi.cpp
+1715481274 source:/home/raghav/Labs/ELEX4699-CarProject/CControlPi.cpp
 	<iostream>
 	<unistd.h>
 	"pigpio.h"
 	"CControlPi.h"
 
-1715481274 /home/raghav/Labs/NewC/ELEX4699-CarProject/CControlPi.h
+1715481274 /home/raghav/Labs/ELEX4699-CarProject/CControlPi.h
 	<string>
 
-1715481274 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/Client.cpp
+1715481274 source:/home/raghav/Labs/ELEX4699-CarProject/Client.cpp
 	<iostream>
 	"Client.h"
 
-1715481274 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/CMotor.cpp
+1715481274 source:/home/raghav/Labs/ELEX4699-CarProject/CMotor.cpp
 	"CMotor.h"
 
-1715481274 /home/raghav/Labs/NewC/ELEX4699-CarProject/CMotor.h
+1715481274 /home/raghav/Labs/ELEX4699-CarProject/CMotor.h
 	<algorithm>
 	<iostream>
 	<thread>
@@ -1705,19 +2227,7 @@
 	"Constants.h"
 	"CControlPi.h"
 
-1715481274 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/server.cpp
-	"server.h"
-	<sys/types.h>
-	<stdlib.h>
-	<unistd.h>
-	<sys/socket.h>
-	<sys/ioctl.h>
-	<fcntl.h>
-	<netinet/in.h>
-	<netdb.h>
-	<thread>
-
-1715481274 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/main.cpp
+1715543792 source:/home/raghav/Labs/ELEX4699-CarProject/main.cpp
 	"cvui.h"
 	<opencv2/opencv.hpp>
 	<string>
@@ -1729,7 +2239,7 @@
 	"CControlPi.h"
 	"CCar.h"
 
-1715481274 /home/raghav/Labs/NewC/ELEX4699-CarProject/cvui.h
+1715481274 /home/raghav/Labs/ELEX4699-CarProject/cvui.h
 	"cvui.h"
 	<opencv2/opencv.hpp>
 	"cvui.h"
@@ -1750,10 +2260,11 @@
 1608580898 /usr/include/opencv4/opencv2/core/core.hpp
 	"opencv2/core.hpp"
 
-1715539910 /home/raghav/Labs/NewC/ELEX4699-CarProject/CCar.h
+1715544122 /home/raghav/Labs/ELEX4699-CarProject/CCar.h
 	<algorithm>
 	<chrono>
 	<thread>
+	<opencv2/aruco.hpp>
 	<opencv2/opencv.hpp>
 	<sstream>
 	<chrono>
@@ -1763,7 +2274,27 @@
 	"CMotor.h"
 	"CControlPi.h"
 
-1715488593 source:/home/raghav/Labs/NewC/ELEX4699-CarProject/CCar.cpp
+1608574447 /usr/include/opencv4/opencv2/aruco.hpp
+	<opencv2/core.hpp>
+	<vector>
+	"opencv2/aruco/dictionary.hpp"
+
+1608574447 /usr/include/opencv4/opencv2/aruco/dictionary.hpp
+	<opencv2/core.hpp>
+
+1715481274 source:/home/raghav/Labs/ELEX4699-CarProject/server.cpp
+	"server.h"
+	<sys/types.h>
+	<stdlib.h>
+	<unistd.h>
+	<sys/socket.h>
+	<sys/ioctl.h>
+	<fcntl.h>
+	<netinet/in.h>
+	<netdb.h>
+	<thread>
+
+1715544569 source:/home/raghav/Labs/ELEX4699-CarProject/CCar.cpp
 	"CCar.h"
 	"cvui.h"
 
