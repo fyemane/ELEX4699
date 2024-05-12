@@ -31,6 +31,11 @@ CCar::CCar() {
     // robot should not move when the object is created
     _lmotor.set_speed(1490);
     _rmotor.set_speed(1500);
+
+    // initialize the ultrasonic sensor
+    control_obj.set_digital(TRIGGER_PIN, 0);
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
 }
 
 CCar::~CCar() {
@@ -58,7 +63,7 @@ void CCar::update() {
 
     if (!_commands_list.empty()) {
         for (const auto& str: _commands_list) {
-            std::cout << "Received: " << str << std::endl;
+            //std::cout << "Received: " << str << std::endl;
         }
         std::istringstream iss(_commands_list.at(0));
 
@@ -80,7 +85,7 @@ void CCar::update() {
                 }
             }
             //drive backwards
-            else if(cmd3 > 12000) {
+            else if(cmd3 < -12000) {
                 _lmotor.set_speed(1405);
                 _rmotor.set_speed(2500);
             }
@@ -91,12 +96,12 @@ void CCar::update() {
             }
 
             // turn left
-            if (cmd4 > 12000) {
+            if (cmd4 < -12000) {
                 _lmotor.set_speed(1480);
                 _rmotor.set_speed(500);
             }
             //turn right
-            else if (cmd4 < -12000) {
+            else if (cmd4 > 12000) {
                 _lmotor.set_speed(2500);
                 _rmotor.set_speed(1500);
             }
@@ -114,8 +119,9 @@ void CCar::update() {
             else {
                 shoot_stop();
             }
-        }  
+        }
     }
+
 }
 
 void CCar::shoot() {
@@ -222,7 +228,12 @@ void CCar::lmotor_drive_thread(CCar* ptr) {
 void CCar::rmotor_drive_thread(CCar* ptr) {
     while (ptr->_thread_exit == false) {
         ptr->rmotor_drive();
+    }
+}
 
+void CCar::ultrasonic_sensor_thread(CCar* ptr) {
+    while (ptr->_thread_exit == false) {
+        ptr->sense_distance();
     }
 }
 
@@ -236,10 +247,12 @@ void CCar::run() {
     std::thread pi_server_t(&CCar::get_commands_thread, this);
     std::thread lmotor_drive_t(&CCar::lmotor_drive_thread, this);
     std::thread rmotor_drive_t(&CCar::rmotor_drive_thread, this);
+    std::thread ultrasonic_sensor_t(&CCar::ultrasonic_sensor_thread, this);
 
     lmotor_drive_t.detach();
     rmotor_drive_t.detach();
     pi_server_t.detach();
+    ultrasonic_sensor_t.detach();
 
     do {
         update();
@@ -252,4 +265,5 @@ void CCar::run() {
     lmotor_drive_t.join();
     rmotor_drive_t.join();
     pi_server_t.join();
+    ultrasonic_sensor_t.join();
 }

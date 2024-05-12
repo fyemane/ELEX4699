@@ -2,3 +2,6 @@
 /laptop code/opencv
 /laptop code/build
 /laptop code/.vs
+/ELEX4699-CarProject/bin
+/ELEX4699-CarProject/obj
+*.o
