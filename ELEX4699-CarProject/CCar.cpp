@@ -92,8 +92,8 @@ void CCar::update() {
                 }
                 // stop motor throttle with distance sensing
                 if (std::abs(distance) == 0 ) {
-                    _lmotor.set_speed(1490);
-                    _rmotor.set_speed(1500);
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(_pwm_rmotor_stop);
                 }
             }
             //drive backwards
