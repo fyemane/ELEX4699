@@ -21,17 +21,13 @@
 
 #define CANVAS_NAME "Display Image"
 
-void lab10() {
-    CCar mycar;
-    mycar.run();
-}
-
 void print_menu() {
 	std::cout << "\n***********************************";
-	std::cout << "\n* ELEX4618 Template Project";
+	std::cout << "\n* ELEX4699 Car Project";
 	std::cout << "\n***********************************";
-    std::cout << "\n(1) Lab 10 - User Input";
-	std::cout << "\n(0) Exit";
+    std::cout << "\n(0) Teleoperation";
+	std::cout << "\n(1) Autonomous";
+	std::cout << "\n(2) Exit";
 	std::cout << "\nCMD> ";
 }
 
@@ -40,8 +36,14 @@ int main() {
 	do {
 	    print_menu();
 		std::cin >> cmd;
-		switch (cmd) {
-            case 1: lab10(); break;
+
+		if (cmd == 0) {
+			CCar mycar(0);
+			mycar.run();
+		}
+		else if (cmd == 1) {
+            CCar mycar(1); 
+			mycar.run(); 
         }
-	} while (cmd != 0);
+	} while (cmd != 2);
 }

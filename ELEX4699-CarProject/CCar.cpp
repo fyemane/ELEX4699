@@ -1,7 +1,7 @@
 #include "CCar.h"
 #include "cvui.h"
 
-CCar::CCar() {
+CCar::CCar(int mode) {
     _pi_server_port = 4012;
 
     _thread_exit = false;
@@ -9,12 +9,26 @@ CCar::CCar() {
     _exitFlag = false;
 
     _shoot_speed = 500;
+    _autonomous = mode;
+
+    
+    _pwm_lmotor_forward = 1560, _pwm_rmotor_forward = 500;
+    _pwm_lmotor_backward = 1405, _pwm_rmotor_backward = 2500;
+    _pwm_lmotor_left = 1490, _pwm_rmotor_left = 1500;
+    _pwm_lmotor_right = 1480, _pwm_rmotor_right = 500;
+    _pwm_lmotor_stop = 2500, _pwm_rmotor_stop = 1500;
+    _pwm_lmotor_CW = 2500, _pwm_rmotor_CW = 1500;
+
+    
 
     // for drawing
     _canvasSize = cv::Size(700, 700);
     _canvas = cv::Mat::zeros(_canvasSize, CV_8UC3);
     _persistentCanvas = cv::Mat::zeros(_canvasSize, CV_8UC3);  // Initialize persistent canvas
     cvui::init("CarProject");              // Initialize cvui here
+    _gui_position = cv::Point(650, 10);
+    _gui_vertspace = 50;
+
 
     _vid.open(0, cv::CAP_V4L2);
     if (!_vid.isOpened()) {
@@ -51,12 +65,10 @@ void CCar::update() {
 
     if (_vidFrame.empty() == false) {
         _pi_server.set_txim(_vidFrame);
-
-        // detect markers and update id list and vector list
-        // cv::aruco::detectMarkers(_vidFrame, dictionary, corners, ids);
-        // if (ids.size() > 0) {
-        //     cv::aruco::drawDetectedMarkers(_processedFrame, corners, ids);
-        // }
+        cv::aruco::detectMarkers(_vidFrame, dictionary, corners, ids);
+        if (ids.size() > 0) {
+            cv::aruco::drawDetectedMarkers(_processedFrame, corners, ids);
+        }
     }
 
     _pi_server.get_cmd(_commands_list);
@@ -75,8 +87,8 @@ void CCar::update() {
             if (cmd3 > 12000) {
                 // only drive if no obstruction in front of ultrasonic sensor
                 if (std::abs(distance) != 0 && std::abs(distance) <= 15) {
-                    _lmotor.set_speed(1560);
-                    _rmotor.set_speed(500);
+                    _lmotor.set_speed(_pwm_lmotor_forward);
+                    _rmotor.set_speed(_pwm_lmotor_forward);
                 }
                 // stop motor throttle with distance sensing
                 if (std::abs(distance) == 0 ) {
@@ -86,30 +98,30 @@ void CCar::update() {
             }
             //drive backwards
             else if(cmd3 < -12000) {
-                _lmotor.set_speed(1405);
-                _rmotor.set_speed(2500);
+                _lmotor.set_speed(_pwm_lmotor_backward);
+                _rmotor.set_speed(_pwm_rmotor_backward);
             }
             // stop driving
             else {
-                _lmotor.set_speed(1490);
-                _rmotor.set_speed(1500);
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(_pwm_rmotor_stop);
             }
 
             // turn left
             if (cmd4 < -12000) {
-                _lmotor.set_speed(1480);
-                _rmotor.set_speed(500);
+                _lmotor.set_speed(_pwm_lmotor_left);
+                _rmotor.set_speed(_pwm_lmotor_left);
             }
             //turn right
             else if (cmd4 > 12000) {
-                _lmotor.set_speed(2500);
-                _rmotor.set_speed(1500);
+                _lmotor.set_speed(_pwm_lmotor_right);
+                _rmotor.set_speed(_pwm_rmotor_right);
             }
 
             // rotate CW
             if (cmd6 > 0) {
-                _lmotor.set_speed(2500);
-                _rmotor.set_speed(2500);
+                _lmotor.set_speed(_pwm_lmotor_CW);
+                _rmotor.set_speed(_pwm_rmotor_CW);
             }
 
             // shoot
@@ -140,6 +152,37 @@ void CCar::get_commands() {
 void CCar::draw() {
     _canvas = _persistentCanvas.clone();  // clear canvas
     drawImage(_canvas, cv::Point(3, 3), _processedFrame);
+
+    cvui::window(_canvas, _gui_position.x, _gui_position.y, 600, 600, "CarProject");
+
+    cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace, "L - Forward");
+    cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 1, 550, &_pwm_lmotor_forward, 500, 2500);
+    cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace * 2, "R - Forward");
+    cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 2, 550, &_pwm_rmotor_forward, 500, 2500);
+    cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace * 3, "L - Backward");
+    cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 3, 550, &_pwm_lmotor_backward, 500, 2500);
+    cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace * 4, "R - Backward");
+    cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 4, 550, &_pwm_rmotor_backward, 500, 2500);
+    cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace * 5, "L - Left");
+    cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 5, 550, &_pwm_lmotor_left, 500, 2500);
+    cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace * 6, "R - Left");
+    cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 6, 550, &_pwm_rmotor_left, 500, 2500);
+    cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace * 7, "L - Right");
+    cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 7, 550, &_pwm_lmotor_right, 500, 2500);
+    cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace * 8, "R - Right");
+    cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 8, 550, &_pwm_rmotor_right, 500, 2500);
+    cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace * 9, "L - Stop");
+    cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 9, 550, &_pwm_lmotor_stop, 500, 2500);
+    cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace * 10, "L - CW");
+    cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 10, 550, &_pwm_lmotor_CW, 500, 2500);
+    cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace * 10, "R - CW");
+    cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 10, 550, &_pwm_rmotor_CW, 500, 2500);
+
+
+    // autosort
+    cvui::checkbox(_canvas, _gui_position.x + 10, _gui_position.y + 30, "Autonomous", &_autonomous);
+
+
 
         // Display the canvas on the window
     if (!_exitFlag) {
