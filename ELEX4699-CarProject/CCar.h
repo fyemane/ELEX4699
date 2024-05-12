@@ -59,6 +59,7 @@ public:
     void rmotor_drive();
     void shoot();
     void shoot_stop();
+    void sense_distance();
 
     void get_commands();
 
@@ -68,7 +69,7 @@ public:
     static void get_commands_thread(CCar* ptr);
     static void draw_thread(CCar* ptr);
     static void update_thread(CCar* ptr);
-
+    static void ultrasonic_sensor_thread(CCar* ptr);
 
     void run();
 
