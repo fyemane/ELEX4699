@@ -67,9 +67,17 @@ void CCar::update() {
 
         if(cmd1 != "G"){
             // drive forward
-            if (cmd3 < -12000) {
-                _lmotor.set_speed(1560);
-                _rmotor.set_speed(500);
+            if (cmd3 > 12000) {
+                // only drive if no obstruction in front of ultrasonic sensor
+                if (std::abs(distance) != 0 && std::abs(distance) <= 15) {
+                    _lmotor.set_speed(1560);
+                    _rmotor.set_speed(500);
+                }
+                // stop motor throttle with distance sensing
+                if (std::abs(distance) == 0 ) {
+                    _lmotor.set_speed(1490);
+                    _rmotor.set_speed(1500);
+                }
             }
             //drive backwards
             else if(cmd3 > 12000) {
@@ -154,6 +162,48 @@ void CCar::lmotor_drive() {
 
 void CCar::rmotor_drive() {
     _rmotor.go();
+}
+
+void CCar::sense_distance(){
+
+    // initialize the ultrasonic sensor
+    control_obj.set_digital(TRIGGER_PIN, 0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    control_obj.set_digital(TRIGGER_PIN, 1);
+    std::this_thread::sleep_for(std::chrono::nanoseconds(1));
+    control_obj.set_digital(TRIGGER_PIN, 0);
+
+    int result = 0;
+    control_obj.get_digital(ECHO_PIN, result);
+
+    func_start_time = std::chrono::steady_clock::now();
+    while (result == 0) {
+        control_obj.get_digital(ECHO_PIN, result);
+        pulse_start_time = std::chrono::steady_clock::now();
+
+        func_duration = std::chrono::duration_cast<std::chrono::milliseconds>(pulse_start_time - func_start_time);
+        if(func_duration.count() > 50){
+            break;
+        }
+    }
+
+    func_start_time = std::chrono::steady_clock::now();
+    while (result == 1) {
+        control_obj.get_digital(ECHO_PIN, result);
+        pulse_end_time = std::chrono::steady_clock::now();
+
+        func_duration = std::chrono::duration_cast<std::chrono::milliseconds>(pulse_end_time - func_start_time);
+        if(func_duration.count() > 50){
+            break;
+        }
+    }
+    
+    pulse_duration = std::chrono::duration_cast<std::chrono::milliseconds>(pulse_end_time - pulse_start_time);
+    distance = pulse_duration.count();
+    if(distance > 10) {
+        distance  = 10;
+    }
 }
 
 void CCar::draw_thread(CCar* ptr) {
