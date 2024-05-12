@@ -59,7 +59,7 @@ private:
     std::vector<std::vector<cv::Point2f>> corners;
 
 
-    bool _autonomous;
+    int _autonomous;
     bool _thread_exit;
     bool _resetFlag, _exitFlag; ///< Flags for resetting and exiting the application.
 
@@ -69,6 +69,9 @@ private:
     int _pwm_lmotor_right, _pwm_rmotor_right;
     int _pwm_lmotor_stop, _pwm_rmotor_stop;
     int _pwm_lmotor_CW , _pwm_rmotor_CW;
+
+    int introCounter;
+    std::vector<int> durations;
 
 
 public:

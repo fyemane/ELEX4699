@@ -61,6 +61,11 @@ CCar::CCar(int mode) {
     control_obj.set_digital(TRIGGER_PIN, 0);
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
+    introCounter = 0;
+
+    // 5000 as stationary, 3.63s forward,
+    durations = {5000, 3630, 800, 4000};
+
 }
 
 CCar::~CCar() {
@@ -82,6 +87,13 @@ void CCar::update() {
         }
     }
 
+    if (ids.size() > 0) {
+        shoot();
+    }
+    else {
+        shoot_stop();
+    }
+
     _pi_server.get_cmd(_commands_list);
 
     if (!_commands_list.empty()) {
@@ -93,57 +105,98 @@ void CCar::update() {
         // parse string
         iss >> cmd1 >> cmd2 >> cmd3 >> cmd4 >> cmd5 >> cmd6;
 
-        if(cmd1 != "G"){
-            // drive forward
-            if (cmd3 > 12000) {
-                // only drive if no obstruction in front of ultrasonic sensor
-                if (std::abs(distance) != 0 && std::abs(distance) <= 15) {
-                    _lmotor.set_speed(_pwm_lmotor_forward);
-                    _rmotor.set_speed(_pwm_rmotor_forward);
+        if (!_autonomous) {
+            if(cmd1 != "G"){
+                // drive forward
+                if (cmd3 > 12000) {
+                    // only drive if no obstruction in front of ultrasonic sensor
+                    if (std::abs(distance) != 0 && std::abs(distance) <= 15) {
+                        _lmotor.set_speed(_pwm_lmotor_forward);
+                        _rmotor.set_speed(_pwm_rmotor_forward);
+                    }
+                    // stop motor throttle with distance sensing
+                    if (std::abs(distance) == 0 ) {
+                        _lmotor.set_speed(_pwm_lmotor_stop);
+                        _rmotor.set_speed(_pwm_rmotor_stop);
+                    }
                 }
-                // stop motor throttle with distance sensing
-                if (std::abs(distance) == 0 ) {
+                //drive backwards
+                else if(cmd3 < -12000) {
+                    _lmotor.set_speed(_pwm_lmotor_backward);
+                    _rmotor.set_speed(_pwm_rmotor_backward);
+                }
+                // stop driving
+                else {
                     _lmotor.set_speed(_pwm_lmotor_stop);
                     _rmotor.set_speed(_pwm_rmotor_stop);
                 }
-            }
-            //drive backwards
-            else if(cmd3 < -12000) {
-                _lmotor.set_speed(_pwm_lmotor_backward);
-                _rmotor.set_speed(_pwm_rmotor_backward);
-            }
-            // stop driving
-            else {
-                _lmotor.set_speed(_pwm_lmotor_stop);
-                _rmotor.set_speed(_pwm_rmotor_stop);
-            }
 
-            // turn left
-            if (cmd4 < -12000) {
-                _lmotor.set_speed(_pwm_lmotor_left);
-                _rmotor.set_speed(_pwm_rmotor_left);
-            }
-            //turn right
-            else if (cmd4 > 12000) {
-                _lmotor.set_speed(_pwm_lmotor_right);
-                _rmotor.set_speed(_pwm_rmotor_right);
-            }
+                // turn left
+                if (cmd4 < -12000) {
+                    _lmotor.set_speed(_pwm_lmotor_left);
+                    _rmotor.set_speed(_pwm_rmotor_left);
+                }
+                //turn right
+                else if (cmd4 > 12000) {
+                    _lmotor.set_speed(_pwm_lmotor_right);
+                    _rmotor.set_speed(_pwm_rmotor_right);
+                }
 
-            // rotate CW
-            if (cmd6 > 0) {
-                _lmotor.set_speed(_pwm_lmotor_CW);
-                _rmotor.set_speed(_pwm_rmotor_CW);
-            }
+                // rotate CW
+                if (cmd6 > 0) {
+                    _lmotor.set_speed(_pwm_lmotor_CW);
+                    _rmotor.set_speed(_pwm_rmotor_CW);
+                }
 
-            // shoot
-            if (cmd5 > 0) {
-                shoot();
-            }
-            else {
-                shoot_stop();
+                // shoot
+                if (cmd5 > 0) {
+                    shoot();
+                }
+                else {
+                    shoot_stop();
+                }
             }
         }
+
+
     }
+
+    if (_autonomous) {
+            if (introCounter == 0) {
+                // will be statinoary in the beginning
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(_pwm_rmotor_stop);
+                std::cout << introCounter << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(durations.at(introCounter)));
+                introCounter++;
+            } else if (introCounter == 1) {
+                // go forward for 3.63 s
+                _lmotor.set_speed(_pwm_lmotor_forward);
+                _rmotor.set_speed(_pwm_rmotor_forward);
+                std::cout << introCounter << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(durations.at(introCounter)));
+                introCounter++;
+            } else if (introCounter == 2) {
+                // turn right for 1 s
+                _lmotor.set_speed(_pwm_lmotor_right);
+                _rmotor.set_speed(_pwm_rmotor_right);
+                std::this_thread::sleep_for(std::chrono::milliseconds(durations.at(introCounter)));
+                introCounter++;
+            } else if (introCounter == 3) {
+                // go forward for 4 s
+                _lmotor.set_speed(_pwm_lmotor_forward);
+                _rmotor.set_speed(_pwm_rmotor_forward);
+                std::this_thread::sleep_for(std::chrono::milliseconds(durations.at(introCounter)));
+                introCounter++;
+
+            } else {
+                // will stop
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(_pwm_rmotor_stop);
+                std::cout << introCounter << std::endl;
+            }
+
+        }
 
 }
 
@@ -191,7 +244,7 @@ void CCar::draw() {
 
 
     // autosort
-    cvui::checkbox(_canvas, _gui_position.x + 10, _gui_position.y + 30, "Autonomous", &_autonomous);
+    // cvui::checkbox(_canvas, _gui_position.x + 10, _gui_position.y + 30, "Autonomous", &_autonomous);
 
 
 
@@ -263,6 +316,12 @@ void CCar::sense_distance(){
     distance = pulse_duration.count();
     if(distance > 10) {
         distance  = 10;
+    }
+}
+
+void CCar::update_thread(CCar* ptr) {
+    while (ptr->_thread_exit == false) {
+        ptr->update();
     }
 }
 
