@@ -4,17 +4,21 @@
 #include <thread>
 #include <opencv2/opencv.hpp>
 #include <sstream>
+#include <chrono>
 
 #include "server.h"
 #include "Client.h"
 #include "Constants.h"
 #include "CMotor.h"
+#include "CControlPi.h"
 
-class CCar
-{
+class CCar {
+
 private:
     CMotor _lmotor{LMOTOR_OUTPUT_PIN, 1500};
     CMotor _rmotor{RMOTOR_OUTPUT_PIN, 1500};
+
+    CControlPi control_obj;
 
     CClient _pi_client;
     CServer _pi_server;
@@ -24,10 +28,18 @@ private:
 
     int _pi_server_port;
     int _arena_server_port;
+    int _shoot_speed;
 
     std::vector<std::string> _commands_list;
 
-    int _shoot_speed;
+    std::chrono::steady_clock::time_point pulse_start_time;
+    std::chrono::steady_clock::time_point pulse_end_time;
+    std::chrono::milliseconds pulse_duration;
+
+    std::chrono::steady_clock::time_point func_start_time;
+    std::chrono::steady_clock::time_point func_end_time;
+    std::chrono::milliseconds func_duration;
+    double distance;
 
     double _analogX, _analogY;
     std::string cmd1;
