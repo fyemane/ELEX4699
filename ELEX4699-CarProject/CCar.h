@@ -57,9 +57,11 @@ private:
     cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
     std::vector<int> ids;
     std::vector<std::vector<cv::Point2f>> corners;
+    std::vector<double> areas;
+    std::vector<cv::Point2f> centers;
 
 
-    int _autonomous;
+    bool _autonomous;
     bool _thread_exit;
     bool _resetFlag, _exitFlag; ///< Flags for resetting and exiting the application.
 
@@ -70,9 +72,6 @@ private:
     int _pwm_lmotor_stop, _pwm_rmotor_stop;
     int _pwm_lmotor_CW , _pwm_rmotor_CW;
 
-    int introCounter;
-    std::vector<int> durations;
-
 
 public:
     CCar(int mode);
@@ -81,6 +80,7 @@ public:
     void update();
     void draw();
     void drawImage(cv::Mat& canvas, cv::Point position, cv::Mat& image);
+    void autonomous();
 
     // drive functions
     void lmotor_drive();
@@ -92,6 +92,7 @@ public:
     void get_commands();
 
     // motor drive threads
+    static void autonomous_thread(CCar* ptr);
     static void lmotor_drive_thread(CCar* ptr);
     static void rmotor_drive_thread(CCar* ptr);
     static void get_commands_thread(CCar* ptr);

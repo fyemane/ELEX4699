@@ -61,11 +61,6 @@ CCar::CCar(int mode) {
     control_obj.set_digital(TRIGGER_PIN, 0);
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
-    introCounter = 0;
-
-    // 5000 as stationary, 3.63s forward,
-    durations = {5000, 3630, 800, 4000};
-
 }
 
 CCar::~CCar() {
@@ -82,16 +77,22 @@ void CCar::update() {
     if (_vidFrame.empty() == false) {
         _pi_server.set_txim(_vidFrame);
         cv::aruco::detectMarkers(_vidFrame, dictionary, corners, ids);
+
+        areas.clear();
+        centers.clear();
+
+        for (size_t i = 0; i < corners.size(); i++) {
+            double area = cv::contourArea(corners[i]);
+            cv::Moments M = cv::moments(corners[i]);
+            cv::Point center(M.m10 / M.m00, M.m01 / M.m00);
+
+            areas.push_back(area);
+            centers.push_back(center);
+        }
+
         if (ids.size() > 0) {
             cv::aruco::drawDetectedMarkers(_processedFrame, corners, ids);
         }
-    }
-
-    if (ids.size() > 0) {
-        shoot();
-    }
-    else {
-        shoot_stop();
     }
 
     _pi_server.get_cmd(_commands_list);
@@ -106,7 +107,7 @@ void CCar::update() {
         iss >> cmd1 >> cmd2 >> cmd3 >> cmd4 >> cmd5 >> cmd6;
 
         if (!_autonomous) {
-            if(cmd1 != "G"){
+                if(cmd1 != "G"){
                 // drive forward
                 if (cmd3 > 12000) {
                     // only drive if no obstruction in front of ultrasonic sensor
@@ -158,45 +159,7 @@ void CCar::update() {
             }
         }
 
-
     }
-
-    if (_autonomous) {
-            if (introCounter == 0) {
-                // will be statinoary in the beginning
-                _lmotor.set_speed(_pwm_lmotor_stop);
-                _rmotor.set_speed(_pwm_rmotor_stop);
-                std::cout << introCounter << std::endl;
-                std::this_thread::sleep_for(std::chrono::milliseconds(durations.at(introCounter)));
-                introCounter++;
-            } else if (introCounter == 1) {
-                // go forward for 3.63 s
-                _lmotor.set_speed(_pwm_lmotor_forward);
-                _rmotor.set_speed(_pwm_rmotor_forward);
-                std::cout << introCounter << std::endl;
-                std::this_thread::sleep_for(std::chrono::milliseconds(durations.at(introCounter)));
-                introCounter++;
-            } else if (introCounter == 2) {
-                // turn right for 1 s
-                _lmotor.set_speed(_pwm_lmotor_right);
-                _rmotor.set_speed(_pwm_rmotor_right);
-                std::this_thread::sleep_for(std::chrono::milliseconds(durations.at(introCounter)));
-                introCounter++;
-            } else if (introCounter == 3) {
-                // go forward for 4 s
-                _lmotor.set_speed(_pwm_lmotor_forward);
-                _rmotor.set_speed(_pwm_rmotor_forward);
-                std::this_thread::sleep_for(std::chrono::milliseconds(durations.at(introCounter)));
-                introCounter++;
-
-            } else {
-                // will stop
-                _lmotor.set_speed(_pwm_lmotor_stop);
-                _rmotor.set_speed(_pwm_rmotor_stop);
-                std::cout << introCounter << std::endl;
-            }
-
-        }
 
 }
 
@@ -218,6 +181,14 @@ void CCar::draw() {
     drawImage(_canvas, cv::Point(3, 3), _processedFrame);
 
     cvui::window(_canvas, _gui_position.x, _gui_position.y, 600, 600, "CarProject");
+
+    if (areas.size() != 0) {
+        for (size_t i = 0; i < corners.size(); i++) {
+            cvui::text(_canvas, 10, 20 * i, "ID: " + std::to_string(ids.at(i)) + ": " + std::to_string(areas.at(i)) + " - " + std::to_string(centers.at(i).x) + ", " + std::to_string(centers.at(i).y));
+
+        }
+    }
+
 
     cvui::text(_canvas, _gui_position.x + 70, _gui_position.y + _gui_vertspace, "L - Forward");
     cvui::trackbar(_canvas, _gui_position.x + 10, _gui_position.y + _gui_vertspace * 1, 550, &_pwm_lmotor_forward, 500, 2500);
@@ -244,7 +215,7 @@ void CCar::draw() {
 
 
     // autosort
-    // cvui::checkbox(_canvas, _gui_position.x + 10, _gui_position.y + 30, "Autonomous", &_autonomous);
+    cvui::checkbox(_canvas, _gui_position.x + 10, _gui_position.y + 30, "Autonomous", &_autonomous);
 
 
 
@@ -319,18 +290,26 @@ void CCar::sense_distance(){
     }
 }
 
-void CCar::update_thread(CCar* ptr) {
-    while (ptr->_thread_exit == false) {
-        ptr->update();
-    }
-}
-
 void CCar::draw_thread(CCar* ptr) {
     while (ptr->_thread_exit == false) {
         ptr->draw();
     }
 }
 
+void CCar::autonomous() {
+    if (_autonomous) {
+
+
+
+
+    }
+}
+
+void CCar::autonomous_thread(CCar* ptr) {
+    while (ptr->_thread_exit == false) {
+        ptr->autonomous();
+    }
+}
 
 void CCar::lmotor_drive_thread(CCar* ptr) {
     while (ptr->_thread_exit == false) {
