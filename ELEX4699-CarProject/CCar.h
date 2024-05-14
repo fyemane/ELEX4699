@@ -33,12 +33,14 @@ private:
 
     std::chrono::steady_clock::time_point pulse_start_time;
     std::chrono::steady_clock::time_point pulse_end_time;
-    std::chrono::milliseconds pulse_duration;
+    std::chrono::microseconds pulse_duration;
 
     std::chrono::steady_clock::time_point func_start_time;
     std::chrono::steady_clock::time_point func_end_time;
     std::chrono::milliseconds func_duration;
     double distance;
+    double prev_distance;
+    int forward_stop_offset;
 
     double _analogX, _analogY;
     std::string cmd1;
@@ -59,6 +61,10 @@ private:
     std::vector<std::vector<cv::Point2f>> corners;
     std::vector<double> areas;
     std::vector<cv::Point2f> centers;
+
+    int _target_aruco_id;
+    double _target_aruco_area;
+    cv::Point _target_aruco_center;
 
 
     bool _autonomous;
@@ -88,10 +94,12 @@ public:
     void shoot();
     void shoot_stop();
     void sense_distance();
+    void update_target_aruco();
 
     void get_commands();
 
     // motor drive threads
+    static void update_target_aruco_thread(CCar* ptr);
     static void autonomous_thread(CCar* ptr);
     static void lmotor_drive_thread(CCar* ptr);
     static void rmotor_drive_thread(CCar* ptr);
