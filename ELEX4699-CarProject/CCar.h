@@ -41,6 +41,9 @@ private:
     double distance;
     double prev_distance;
     int forward_stop_offset;
+    int forward_stop_offset_31;
+
+
 
     double _analogX, _analogY;
     std::string cmd1;

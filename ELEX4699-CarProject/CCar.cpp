@@ -10,14 +10,15 @@ CCar::CCar(int mode) {
 
     _shoot_speed = 500;
     _autonomous = mode;
-    forward_stop_offset = 2000;
+    forward_stop_offset = 1700;
+    forward_stop_offset_31 = 1900;
 
 
-    _pwm_lmotor_forward = 1560;
+    _pwm_lmotor_forward = 1553;
     _pwm_rmotor_forward = 500;
 
-    _pwm_lmotor_backward = 1405;
-    _pwm_rmotor_backward = 2500;
+    _pwm_lmotor_backward = 500;
+    _pwm_rmotor_backward = 1948;
 
     _pwm_lmotor_left = 1490;
     _pwm_rmotor_left = 500;
@@ -177,7 +178,7 @@ void CCar::autonomous() {
         _rmotor.set_speed(_pwm_rmotor_stop);
         std::this_thread::sleep_for(std::chrono::milliseconds(400));
 
-        //while (std::abs(distance) > 1 && _target_aruco_area < 1500) {
+        // course correction along first wall
         while (distance > forward_stop_offset) {
             // if aruco target is to the left of the pi cam, move left
             if (_target_aruco_center.x < 280) {
@@ -226,27 +227,28 @@ void CCar::autonomous() {
 //            }
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
-//            // shooting for D1
-//            if (_target_aruco_area > 350 && _target_aruco_area < 570)
-//                shoot();
-//            else
-//                shoot_stop();
+            // shooting for D1
+            if (_target_aruco_area > 330 && _target_aruco_area < 500)
+                shoot();
+            else
+                shoot_stop();
 
         }
 
+        shoot_stop();
        _target_aruco_id = 31;
 
         // make 90 degree angle at arena corner
         _lmotor.set_speed(_pwm_lmotor_right);
         _rmotor.set_speed(_pwm_rmotor_right);
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        std::this_thread::sleep_for(std::chrono::milliseconds(650));
 
         // pause for 200 ms
         _lmotor.set_speed(_pwm_lmotor_stop);
         _rmotor.set_speed(_pwm_rmotor_stop);
         std::this_thread::sleep_for(std::chrono::milliseconds(400));
 
-        // course correction at corner before moving straight
+        // adjust car at corner so that it is aligned with second wall
         // if aruco target is to the left of the pi cam, move left
             if (_target_aruco_center.x < 290) {
                 while (_target_aruco_center.x < 290) {
@@ -286,9 +288,8 @@ void CCar::autonomous() {
 //        _rmotor.set_speed(_pwm_rmotor_stop);
 //        std::this_thread::sleep_for(std::chrono::milliseconds(400));
 
-        //while (std::abs(distance) > 1 && _target_aruco_area < 1500) {
-        //while (std::abs(distance) > 1 && _target_aruco_area < 1500) {
-        while (distance > forward_stop_offset - 200) {
+        // course correction along second wall
+        while (distance > forward_stop_offset_31) {
             // if aruco target is to the left of the pi cam, move left
             if (_target_aruco_center.x < 290) {
                 while (_target_aruco_center.x < 290) {
@@ -300,7 +301,7 @@ void CCar::autonomous() {
                     _rmotor.set_speed(_pwm_rmotor_stop);
                     std::this_thread::sleep_for(std::chrono::milliseconds(200));
 
-                    if (distance < forward_stop_offset - 200){
+                    if (distance < forward_stop_offset_31){
                         break;
                     }
 
@@ -317,7 +318,7 @@ void CCar::autonomous() {
                     _rmotor.set_speed(_pwm_rmotor_stop);
                     std::this_thread::sleep_for(std::chrono::milliseconds(200));
 
-                    if (distance < forward_stop_offset - 200){
+                    if (distance < forward_stop_offset_31){
                         break;
                     }
                 }
@@ -335,20 +336,22 @@ void CCar::autonomous() {
 //            }
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
-//            if (_target_aruco_area > 420 && _target_aruco_area < 6009)
-//                shoot();
-//            else
-//                shoot_stop();
+            if (_target_aruco_area > 450 && _target_aruco_area < 1300)
+                shoot();
+            else
+                shoot_stop();
 
         }
 
+        shoot_stop();
         _target_aruco_id = 29;
 //
 //
+
         // make 90 degree angle at arena corner
         _lmotor.set_speed(_pwm_lmotor_right);
         _rmotor.set_speed(_pwm_rmotor_right);
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        std::this_thread::sleep_for(std::chrono::milliseconds(700));
 //
         // pause for 200 ms
         _lmotor.set_speed(_pwm_lmotor_stop);
@@ -356,7 +359,7 @@ void CCar::autonomous() {
         std::this_thread::sleep_for(std::chrono::milliseconds(400));
 //
 
-        // course correction at corner before moving straight
+        // adjust car so that it is aligned with third wall
         // if aruco target is to the left of the pi cam, move left
         if (_target_aruco_center.x < 290) {
             while (_target_aruco_center.x < 290) {
@@ -391,8 +394,8 @@ void CCar::autonomous() {
 //        _rmotor.set_speed(_pwm_rmotor_stop);
 //        std::this_thread::sleep_for(std::chrono::milliseconds(400));
 //
-//        //while (std::abs(distance) > 1 && _target_aruco_area < 1500) {
-        while (_target_aruco_area < 615) {
+//       // course correction along third wall
+        while (_target_aruco_area < 530) {
             // if aruco target is to the left of the pi cam, move left
             if (_target_aruco_center.x < 290) {
                 while (_target_aruco_center.x < 290) {
@@ -404,7 +407,7 @@ void CCar::autonomous() {
                     _rmotor.set_speed(_pwm_rmotor_stop);
                     std::this_thread::sleep_for(std::chrono::milliseconds(200));
 
-                    if (_target_aruco_area > 615){
+                    if (_target_aruco_area > 530){
                         break;
                     }
 
@@ -421,7 +424,7 @@ void CCar::autonomous() {
                     _rmotor.set_speed(_pwm_rmotor_stop);
                     std::this_thread::sleep_for(std::chrono::milliseconds(200));
 
-                    if (_target_aruco_area > 615){
+                    if (_target_aruco_area > 530){
                         break;
                     }
 
@@ -440,20 +443,22 @@ void CCar::autonomous() {
 //            }
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
-//            if (_target_aruco_area > 420 && _target_aruco_area < 6009)
-//                shoot();
-//            else
-//                shoot_stop();
+            if (_target_aruco_area > 380 && _target_aruco_area < 6009)
+                shoot();
+            else
+                shoot_stop();
 
         }
 
+        shoot_stop();
         _target_aruco_id = 32;
 //
 //
-        // make 90 degree angle at arena corner
-        _lmotor.set_speed(_pwm_lmotor_right);
-        _rmotor.set_speed(_pwm_rmotor_right);
-        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+
+        // turn to align at aruco id 32
+        _lmotor.set_speed(_pwm_lmotor_CW);
+        _rmotor.set_speed(_pwm_rmotor_CW);
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
 //
         // pause for 200 ms
         _lmotor.set_speed(_pwm_lmotor_stop);
@@ -461,34 +466,394 @@ void CCar::autonomous() {
         std::this_thread::sleep_for(std::chrono::milliseconds(400));
 //
 //
-//        // course correction at corner before moving straight
-//        // if aruco target is to the left of the pi cam, move left
-//        if (_target_aruco_center.x < 320) {
-//            while (_target_aruco_center.x < 320) {
-//                _lmotor.set_speed(_pwm_lmotor_stop);
-//                _rmotor.set_speed(1480); // decrese this
-//                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-//                // pause for 200 ms
+        // adjust car so that it is aligned at aruco id 32 to shoot at aruco id 23
+        // if aruco target is to the left of the pi cam, move left
+        if (_target_aruco_center.x < 320) {
+            while (_target_aruco_center.x < 320) {
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(1480); // decrese this
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                // pause for 200 ms
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(_pwm_rmotor_stop);
+                std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            }
+        }
+        // if aruco target is the the right of the pi cam, move right
+        else if (_target_aruco_center.x > 320) {
+            while (_target_aruco_center.x > 320) {
+                _lmotor.set_speed(1505); // increase this
+                _rmotor.set_speed(_pwm_rmotor_stop);
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                // pause for 200 ms
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(_pwm_rmotor_stop);
+                std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            }
+        }
+//
+        // course correction toward aruco id 32 for 4th target
+        while (_target_aruco_area < 1200) {
+            // if aruco target is to the left of the pi cam, move left
+            if (_target_aruco_center.x < 320) {
+                while (_target_aruco_center.x < 320) {
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(1480); // decrese this
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    // pause for 200 ms
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+                    if (_target_aruco_area > 1200){
+                        break;
+                    }
+
+                }
+            // if aruco target is the the right of the pi cam, move right
+            }
+            else if (_target_aruco_center.x > 320) {
+                while (_target_aruco_center.x > 320) {
+                    _lmotor.set_speed(1505); // increase this
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    // pause for 200 ms
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+                    if (_target_aruco_area > 1200){
+                        break;
+                    }
+
+                }
+            }
+
+            _lmotor.set_speed(_pwm_lmotor_stop);
+            _rmotor.set_speed(_pwm_rmotor_stop);
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            _lmotor.set_speed(_pwm_lmotor_forward);
+            _rmotor.set_speed(_pwm_rmotor_forward);
+//            if (distance < forward_stop_offset) {
 //                _lmotor.set_speed(_pwm_lmotor_stop);
 //                _rmotor.set_speed(_pwm_rmotor_stop);
-//                std::this_thread::sleep_for(std::chrono::milliseconds(200));
 //            }
-//        }
-//        // if aruco target is the the right of the pi cam, move right
-//        else if (_target_aruco_center.x > 320) {
-//            while (_target_aruco_center.x > 320) {
-//                _lmotor.set_speed(1505); // increase this
-//                _rmotor.set_speed(_pwm_rmotor_stop);
-//                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-//                // pause for 200 ms
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
+//
+            if (_target_aruco_area > 700 && _target_aruco_area < 2500)
+                shoot();
+            else
+                shoot_stop();
+
+        }
+
+        shoot_stop();
+        _target_aruco_id = 27;
+        // pause for 200 ms
+        _lmotor.set_speed(_pwm_lmotor_stop);
+        _rmotor.set_speed(_pwm_rmotor_stop);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+
+        // move backward to allow space for CW rotation
+        _lmotor.set_speed(_pwm_lmotor_backward);
+        _rmotor.set_speed(_pwm_rmotor_backward);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        // pause for 200 ms
+        _lmotor.set_speed(_pwm_lmotor_stop);
+        _rmotor.set_speed(_pwm_rmotor_stop);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+
+        // rotate CW for 600 ms
+        _lmotor.set_speed(_pwm_lmotor_CW);
+        _rmotor.set_speed(_pwm_rmotor_CW);
+        std::this_thread::sleep_for(std::chrono::milliseconds(800));
+
+        // pause for 200 ms
+        _lmotor.set_speed(_pwm_lmotor_stop);
+        _rmotor.set_speed(_pwm_rmotor_stop);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+
+                // adjust car so that it is aligned at aruco id 32 to shoot at aruco id 23
+        // if aruco target is to the left of the pi cam, move left
+        if (_target_aruco_center.x < 340) {
+            while (_target_aruco_center.x < 340) {
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(1480); // decrese this
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                // pause for 200 ms
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(_pwm_rmotor_stop);
+                std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            }
+        }
+        // if aruco target is the the right of the pi cam, move right
+        else if (_target_aruco_center.x > 340) {
+            while (_target_aruco_center.x > 340) {
+                _lmotor.set_speed(1505); // increase this
+                _rmotor.set_speed(_pwm_rmotor_stop);
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                // pause for 200 ms
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(_pwm_rmotor_stop);
+                std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            }
+        }
+        /*
+        // course correction toward aruco id 27 to be ready for endzone
+        while (_target_aruco_area < 14000) {
+            // if aruco target is to the left of the pi cam, move left
+            if (_target_aruco_center.x < 400) {
+                while (_target_aruco_center.x < 400) {
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(1480); // decrese this
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    // pause for 200 ms
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+                    if (_target_aruco_area > 14000){
+                        break;
+                    }
+
+                }
+            // if aruco target is the the right of the pi cam, move right
+            }
+            else if (_target_aruco_center.x > 400) {
+                while (_target_aruco_center.x > 400) {
+                    _lmotor.set_speed(1505); // increase this
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    // pause for 200 ms
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+                    if (_target_aruco_area > 14000){
+                        break;
+                    }
+
+                }
+            }
+
+            _lmotor.set_speed(_pwm_lmotor_stop);
+            _rmotor.set_speed(_pwm_rmotor_stop);
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            _lmotor.set_speed(_pwm_lmotor_forward);
+            _rmotor.set_speed(_pwm_rmotor_forward);
+//            if (distance < forward_stop_offset) {
 //                _lmotor.set_speed(_pwm_lmotor_stop);
 //                _rmotor.set_speed(_pwm_rmotor_stop);
-//                std::this_thread::sleep_for(std::chrono::milliseconds(200));
 //            }
-//        }
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
+//
+//            if (_target_aruco_area > 800 && _target_aruco_area < 900)
+//                shoot();
+//            else
+//                shoot_stop();
+
+        }
+        */
+
+        // course correction toward aruco id 27 using aruco area to be ready for endzone
+        while (_target_aruco_area < 1200) {
+            // if aruco target is to the left of the pi cam, move left
+            if (_target_aruco_center.x < 400) {
+                while (_target_aruco_center.x < 400) {
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(1480); // decrese this
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    // pause for 200 ms
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+                    if (_target_aruco_area > 1200){
+                        break;
+                    }
+
+                }
+            // if aruco target is the the right of the pi cam, move right
+            }
+            else if (_target_aruco_center.x > 400) {
+                while (_target_aruco_center.x > 400) {
+                    _lmotor.set_speed(1505); // increase this
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    // pause for 200 ms
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+                    if (_target_aruco_area > 1200){
+                        break;
+                    }
+
+                }
+            }
+
+            _lmotor.set_speed(_pwm_lmotor_stop);
+            _rmotor.set_speed(_pwm_rmotor_stop);
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            _lmotor.set_speed(_pwm_lmotor_forward);
+            _rmotor.set_speed(_pwm_rmotor_forward);
+//            if (distance < forward_stop_offset) {
+//                _lmotor.set_speed(_pwm_lmotor_stop);
+//                _rmotor.set_speed(_pwm_rmotor_stop);
+//            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+        }
+
+        // course correction toward aruco id 27 using ultrasonic to be ready for endzone
+        while (distance > 700) {
+            // if aruco target is to the left of the pi cam, move left
+            if (_target_aruco_center.x < 400) {
+                while (_target_aruco_center.x < 400) {
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(1480); // decrese this
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    // pause for 200 ms
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+                    if (distance < 700){
+                        break;
+                    }
+
+                }
+            // if aruco target is the the right of the pi cam, move right
+            }
+            else if (_target_aruco_center.x > 400) {
+                while (_target_aruco_center.x > 400) {
+                    _lmotor.set_speed(1505); // increase this
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    // pause for 200 ms
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+                    if (distance < 700){
+                        break;
+                    }
+
+                }
+            }
+
+            _lmotor.set_speed(_pwm_lmotor_stop);
+            _rmotor.set_speed(_pwm_rmotor_stop);
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            _lmotor.set_speed(_pwm_lmotor_forward);
+            _rmotor.set_speed(_pwm_rmotor_forward);
+//            if (distance < forward_stop_offset) {
+//                _lmotor.set_speed(_pwm_lmotor_stop);
+//                _rmotor.set_speed(_pwm_rmotor_stop);
+//            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        }
+
+
+        shoot_stop();
+        _target_aruco_id = 29;
+//
 //
 
+        // make 90 degree angle at arena corner
+        _lmotor.set_speed(_pwm_lmotor_CW);
+        _rmotor.set_speed(_pwm_rmotor_CW);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+//
+        // pause for 200 ms
+        _lmotor.set_speed(_pwm_lmotor_stop);
+        _rmotor.set_speed(_pwm_rmotor_stop);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
 
+
+        if (_target_aruco_center.x < 320) {
+            while (_target_aruco_center.x < 320) {
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(1480); // decrese this
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                // pause for 200 ms
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(_pwm_rmotor_stop);
+                std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            }
+        }
+        // if aruco target is the the right of the pi cam, move right
+        else if (_target_aruco_center.x > 320) {
+            while (_target_aruco_center.x > 320) {
+                _lmotor.set_speed(1505); // increase this
+                _rmotor.set_speed(_pwm_rmotor_stop);
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                // pause for 200 ms
+                _lmotor.set_speed(_pwm_lmotor_stop);
+                _rmotor.set_speed(_pwm_rmotor_stop);
+                std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            }
+        }
+
+        // course correction toward aruco id 27 to be ready for endzone
+        while (_target_aruco_area < 24000) {
+            // if aruco target is to the left of the pi cam, move left
+            if (_target_aruco_center.x < 360) {
+                while (_target_aruco_center.x < 360) {
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(1480); // decrese this
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    // pause for 200 ms
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+                    if (_target_aruco_area > 24000){
+                        break;
+                    }
+
+                }
+            // if aruco target is the the right of the pi cam, move right
+            }
+            else if (_target_aruco_center.x > 360) {
+                while (_target_aruco_center.x > 360) {
+                    _lmotor.set_speed(1505); // increase this
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    // pause for 200 ms
+                    _lmotor.set_speed(_pwm_lmotor_stop);
+                    _rmotor.set_speed(_pwm_rmotor_stop);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(150));
+
+                    if (_target_aruco_area > 24000){
+                        break;
+                    }
+
+                }
+            }
+
+            _lmotor.set_speed(_pwm_lmotor_stop);
+            _rmotor.set_speed(_pwm_rmotor_stop);
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            _lmotor.set_speed(_pwm_lmotor_forward);
+            _rmotor.set_speed(_pwm_rmotor_forward);
+//            if (distance < forward_stop_offset) {
+//                _lmotor.set_speed(_pwm_lmotor_stop);
+//                _rmotor.set_speed(_pwm_rmotor_stop);
+//            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));
+
+        }
+
+        _lmotor.set_speed(_pwm_lmotor_stop);
+        _rmotor.set_speed(_pwm_rmotor_stop);
 
 
         _autonomous = 0;
@@ -530,12 +895,12 @@ void CCar::draw() {
 
     cvui::window(_canvas, _gui_position.x, _gui_position.y, 600, 600, "CarProject");
 
-    cvui::text(_canvas, 10, 10, "ID TARGET: " + std::to_string(_target_aruco_id), 0.5);
+    cv::putText(_canvas, "ID TARGET: " + std::to_string(_target_aruco_id), cv::Point(10, 20), cv::FONT_HERSHEY_COMPLEX, 0.5, cv::Scalar(0, 0, 0), 1);
 
 
     if (areas.size() != 0) {
         for (size_t i = 0; i < corners.size(); i++) {
-            cvui::text(_canvas, 10, 30 + 20 * i, "ID: " + std::to_string(ids.at(i)) + ": " + std::to_string(areas.at(i)) + " - " + std::to_string(centers.at(i).x) + ", " + std::to_string(centers.at(i).y), 0.5);
+            cv::putText(_canvas, "ID: " + std::to_string(ids.at(i)) + ": " + std::to_string(areas.at(i)) + " - " + std::to_string(centers.at(i).x) + ", " + std::to_string(centers.at(i).y), cv::Point(10, 40 + 20 * i), cv::FONT_HERSHEY_COMPLEX, 0.5, cv::Scalar(0, 0, 0), 1);
 
         }
     }
